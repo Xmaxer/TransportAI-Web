@@ -1,0 +1,7 @@
+ *{colour: #ffff;} 
+ .bg{background: url('../images/bg1.jpg') no-repeat; width: 100%; heaght: 100vh;}
+ .form-container{border:1px solid black; padding:50px 60px; margin-top:20vh;
+-webkit-box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+ }
