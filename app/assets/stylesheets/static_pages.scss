@@ -1,3 +1,20 @@
 // Place all the styles related to the StaticPages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+.bg{background-image: image_url("dark.jpg"); height:100vh; background-position: center; background-repeat: no-repeat; background-size: cover;}
+.form-container{border:1px solid black; padding:50px 60px; margin-top:20vh;
+-webkit-box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+box-shadow: 0px 10px 46px 14px rgba(0,0,0,0.75);
+
+}
+
+body {
+   color:white;
+}
+
+ h1 {
+   color:white;
+}

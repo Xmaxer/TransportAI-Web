@@ -5,6 +5,10 @@ ruby '2.5.1'
 
 #My rubygems
 gem 'google-cloud-firestore', '~> 0.24.2'
+gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
+gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
+gem 'bcrypt', '~> 3.1', '>= 3.1.12'
+gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
 # Use Puma as the app server
