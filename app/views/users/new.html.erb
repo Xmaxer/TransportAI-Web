@@ -1,4 +1,4 @@
-<%= form_for(@user, html: {class: "form-container"}) do |form| %>
+<%= form_for(@user, url: new_admin_path, html: {class: "form-container"}) do |form| %>
 <%= render 'shared/errors' %>
 <h1>Login Page</h1>
 <div class="form-group">
