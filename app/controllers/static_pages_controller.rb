@@ -1,5 +1,6 @@
 class StaticPagesController < ApplicationController
-
+  def error
+  end
   def home
   end
 
