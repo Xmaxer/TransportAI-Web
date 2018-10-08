@@ -3,9 +3,14 @@ class SessionsController < ApplicationController
     user = User.find_by(username: params[:session][:username].downcase)
     if user && user.authenticate(params[:session][:password])
       login(user)
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
       redirect_to dashboard_url
     else
-      flash.now[:danger] = 'Invalid username/password combination'
+      #Implement warning when invalid
+      # respond_to do |format|
+      #   format.js
+      # end
+      #CREATE 'create.js' in views
       render 'static_pages/login'
     end
   end

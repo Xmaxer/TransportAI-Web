@@ -1,3 +1,35 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<h1>Dashboard</h1>
+<div id="logo" class="header">
+  <%= image_tag('logo.png', alt: 'Italian Trulli') %>
+  <!--<img image_url("logo.png") alt="Italian Trulli">-->
+</div>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="dashboard.html">Dashboard </a>
+  <a href="manageCars.html">Manage Cars</a>
+  <a href="managePayments.html">Manage Payments</a>
+  <a href="manageRoutes.html">Manage Routes</a>
+  <a href="ratingsAndReviews.html">Ratings and Reviews</a>
+  <a href="#">Logout</a>
+  <a href="#">Settings</a>
+</div>
+
+<div id="main">
+  <h2></h2>
+  <p></p>
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
 <%= link_to "logout", logout_path, method: :delete %>

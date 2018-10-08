@@ -14,7 +14,12 @@
         <%= form.label :password %>
         <%= form.password_field :password, class: 'form-control', placeholder: "Password" %>
       </div>
-
+      <div class="checkbox">
+        <%= form.label :remember_me, class: "checkbox inline" do %>
+        <%= form.check_box :remember_me %>
+        <span>Remember me on this computer</span>
+        <% end %>
+      </div>
       <%= form.submit "Login", class: "btn btn-success btn-block" %>
       <% end %>
       <!--<form class="form-container">
