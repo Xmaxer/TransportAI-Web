@@ -3,7 +3,7 @@ $(document).ready(function(){
 		console.log("Hello");
 		var button = $(this);
 
-			var title = $('.change_text');
+			var title = $('.text-center');
 			title.text("Login Failed");
 	});
 });
