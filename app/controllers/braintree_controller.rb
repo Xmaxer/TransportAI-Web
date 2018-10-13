@@ -1,4 +1,5 @@
 class BraintreeController < ApplicationController
+  layout false
   def client_token
     @gateway = Braintree::Gateway.new(
       environment: :sandbox,
