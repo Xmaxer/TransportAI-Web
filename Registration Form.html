@@ -7,8 +7,12 @@
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link href="css/reg.css" type="text/css" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
+			<script src= "js//FieldValid.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
 <!------ Include the above in your HEAD tag ---------->
-
+</head>
+<body>
 <div class="container-fluid bg"/>
  <form class="form-signin">
 <div class="container">
@@ -49,6 +53,8 @@
                         </div>
                     </div>
 					
+					
+					
 					<div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
@@ -62,10 +68,26 @@
                     SUBMIT</a> </form>
             </div>
         </div>
-    </div>
-</div>
-</form>
+		</form>
+		<div class="col-md-4">
+									<div class="aro-pswd_info">
+										<div id="pswd_info">
+											<h4>Password must be requirements</h4>
+											<ul>
+												<li id="letter" class="invalid">At least <strong>one letter</strong></li>
+												<li id="capital" class="invalid">At least <strong>one capital letter</strong></li>
+												<li id="number" class="invalid">At least <strong>one number</strong></li>
+												<li id="length" class="invalid">Be at least <strong>8 characters</strong></li>
+												<li id="space" class="invalid">At least one<strong>[~,!,@,#,$,%,^,&,*,-,=,.,;,']</strong></li>
+											</ul>
+										</div>
+									</div>
+								</div>
 
 
 </div> 
+    </div>
+</div>
+
+</body>
 </html>
