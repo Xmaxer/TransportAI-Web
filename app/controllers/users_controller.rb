@@ -12,7 +12,6 @@ class UsersController < ApplicationController
       if !logged_in?
         login @user
       end
-      flash[:success] = "New user added successfully"
       redirect_to dashboard_url
     else
       render 'new'
@@ -20,6 +19,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :password, :password_confirmation)
+    params.require(:user).permit(:username, :password, :password_confirmation, :first_name, :second_name)
   end
 end

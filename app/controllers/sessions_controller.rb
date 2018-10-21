@@ -11,7 +11,9 @@ class SessionsController < ApplicationController
       #   format.js
       # end
       #CREATE 'create.js' in views
-      render 'static_pages/login'
+      respond_to do |format|
+        format.js
+      end
     end
   end
   def destroy
