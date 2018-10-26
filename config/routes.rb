@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get '/new_admin', to: 'users#new'
   get '/dashboard', to: 'dashboard#index'
+  get '/dashboard/reviews', to: 'dashboard#reviews'
   post '/login', to: 'sessions#create'
   post '/new_admin', to: 'users#create'
   root 'static_pages#login'

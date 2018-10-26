@@ -1,35 +1,59 @@
-<h1>Dashboard</h1>
-<div id="logo" class="header">
-  <%= image_tag('logo.png', alt: 'Italian Trulli') %>
-  <!--<img image_url("logo.png") alt="Italian Trulli">-->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="card card-plain">
+      <div class="card-header">
+        Reviews
+      </div>
+      <div class="card-body">
+        <div class="testimonials">
+          <blockquote><p id="p-tag">
+            <div class="pull-left">
+              <span class="testimonials-name">John Smith</span>
+              <span class="testimonials-post">JohnnySmitho@gmail.com</span>
+            </div>I like this app. I like this app. I like this app.
+          </p></blockquote>
+          <blockquote><p id="p-tag2">
+            <div class="pull-left">
+              <span class="testimonials-name">Brenda Murray</span>
+              <span class="testimonials-post">BrendaMurray@gmail.com</span>
+            </div>I like this app. I like this app. I like this app.
+          </p></blockquote>
+          <blockquote><p id="p-tag3">
+            <div class="pull-left">
+              <span class="testimonials-name">Wendyw Woo</span>
+              <span class="testimonials-post">wendywoowoo@gmail.com</span>
+            </div>I like this app. I like this app. I like this app.
+          </p></blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="dashboard.html">Dashboard </a>
-  <a href="manageCars.html">Manage Cars</a>
-  <a href="managePayments.html">Manage Payments</a>
-  <a href="manageRoutes.html">Manage Routes</a>
-  <a href="ratingsAndReviews.html">Ratings and Reviews</a>
-  <a href="#">Logout</a>
-  <a href="#">Settings</a>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-plain">
+      <div class="card-header">
+        Google Maps
+      </div>
+      <div class="card-body">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div id="main">
-  <h2></h2>
-  <p></p>
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-</div>
-
 <script>
-function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
-}
 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft= "0";
-}
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: 51.8987528, lng: -8.4706315};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+    document.getElementById('map'), {zoom: 4, center: uluru});
+    // The marker, positioned at Uluru
+    var marker = new google.maps.Marker({position: uluru, map: map});
+  }
 </script>
-<%= link_to "logout", logout_path, method: :delete %>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">
+</script>

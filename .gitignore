@@ -81,8 +81,6 @@ node_modules/
 yarn-debug.log*
 .yarn-integrity
 
-.firestore_key.json
-
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep

@@ -1,0 +1,79 @@
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
+  authDomain: 'transport-ai-1537358687680.firebaseapp.com',
+  projectId: 'transport-ai-1537358687680'
+});
+
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+
+// Disable deprecated features
+db.settings({
+  timestampsInSnapshots: true
+});
+
+var docRef = db.collection("cars").doc("00-XX-00000");
+
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+</script>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="card card-plain">
+
+    </div>
+  </div>
+</div>
+
+<!-- Start of reviews --->
+<div class="container">
+  <div class="row pb-3">
+    <div class="col-md-12">
+      <h2 class = "heading" >Ratings & Reviews</h2>
+    </div>
+  </div>
+    <% @data.each do |d| %>
+  <div class="one-review">
+    <div class="row">
+      <div class="col-md-6">
+        <p><%= d.data[:car] %></p>
+      </div>
+      <div class="col-md-6 text-success">
+        <small><%= d.data[:created_at] %></small>
+      </div>
+    </div>
+    <div class="row text-success">
+      <div class="col-md-12">
+        <% x = d.data[:rating] %>
+        <% y = 5 - d.data[:rating] %>
+        <% (1..x).each do |star| %>
+        <i class="fas fa-star"></i>
+        <% end %>
+        <% (1..y).each do |empty| %>
+          <i class="far fa-star"></i>
+        <% end %>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col-md-12">
+        <p><%= d.data[:comment] %></p>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <% end %>
+</div>
+
+
+<!-- End of reviews -->
