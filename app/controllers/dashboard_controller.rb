@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
     require "google/cloud/firestore"
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     reviews_ref = firestore.col "reviews"
-    @data = reviews_ref.get
+    @data = reviews_ref.order('created_at', 'desc').limit(10).get
   end
 
   private
