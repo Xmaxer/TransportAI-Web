@@ -14,6 +14,7 @@ Rails.application.config.assets.precompile += %w( dashboard/plugins/bootstrap-no
 Rails.application.config.assets.precompile += %w( dashboard/black-dashboard.css )
 Rails.application.config.assets.precompile += %w( dashboard/nucleo-icons.css )
 Rails.application.config.assets.precompile += %w( dashboard/black-dashboard.js )
+Rails.application.config.assets.precompile += %w( dashboard/ciaracss.css )
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.

@@ -15,7 +15,9 @@ class DashboardController < ApplicationController
 
   def require_login
     unless logged_in?
-      render 'static_pages/error'
+      #head 404
+      #render status: 404, :layout => false
+      render 'errors/forbidden', layout: false
     end
   end
 end
