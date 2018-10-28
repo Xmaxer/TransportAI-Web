@@ -3,11 +3,13 @@
 <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
 <% end %>
 <script>
+if(!firebase.apps.length) {
 firebase.initializeApp({
   apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
   authDomain: 'transport-ai-1537358687680.firebaseapp.com',
   projectId: 'transport-ai-1537358687680'
 });
+}
 
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
