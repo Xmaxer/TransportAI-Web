@@ -23,7 +23,7 @@
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="../assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
-<link href="ciaraCSS.css" rel="stylesheet" />
+<link href="C:\Users\user\Documents\Group Project\Web\TransportAI-Web\assets\css\ciaraCSS.css" rel="stylesheet" />
  <!-- JS Files -->
   
 </head>
@@ -190,136 +190,54 @@
 		  </div>
         </div>
 		
-		  <!-- Start of reviews --->
-	<div class="container">
-	<div class="row pb-3">
-		<div class="col-md-12">
-		    <h2 class = "heading" >Raitings & Reviews</h2>
+		 
+		 
+	<!-- Start of reviews --->
+<div class="container">
+ <div class="media comment-box">
+    <div class="col-md-12">
+	<div class="media-left">
+      <h2 class = "heading">Ratings & Reviews</h2>
+    </div>
+  
+    <% @data.each do |d| %>
+	<div class="meda-body">
+		<div class="media-heading">
+			<div class="row">
+				<div class="col-md-6">
+					<p><%= d.data[:car] %></p>
+				</div>
+				  <div class="col-md-6 text-success">
+					<small><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small>
+				  </div>
+			</div>
+						<div class="row text-success">
+						  <div class="col-md-12">
+							<% x = d.data[:rating] %>
+							<% y = 5 - d.data[:rating] %>
+							<% (1..x).each do |star| %>
+							<i class="fas fa-star"></i>
+							<% end %>
+							<% (1..y).each do |empty| %>
+							  <i class="far fa-star"></i>
+							<% end %>
+						  </div>
+						</div>
+								<div class="row pt-2">
+								  <div class="col-md-12">
+									<p><%= d.data[:comment] %></p>
+								  </div>
+								</div>
 		</div>
-		
 	</div>
-   <div class="one-review">
-	<div class="row">
-                                    <div class="col-md-6">
-                                        <p>Rahul Roy</p>
-                                    </div>
-                                    <div class="col-md-6 text-success">
-                                        <small>30th Jan</small>
-                                    </div>
-                                </div>
-    <div class="row text-success">
-                                    <div class="col-md-12">
-                                        <i class="fa fa-star"></i><i class="fa fa-star-0"></i><i class="fa fa-star-0"></i><i class="fa fa-star-0"></i><i class="fa fa-star-o"></i>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-12">
-                                        <h6>Worse web hosting company</h6>
-                                        <p>I think I started out at under $3 per month 5 or 6 years ago. The price has steadily increased and my latest renewal offer was $16.99 per month. Additionally last year my wife started having spam problems and it seems like someone gained access to all her email correspondence. The only place that we could pin it down to was the justhost SMTP server. Support was very evasive when I tried to explain what I thought happened.</p>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-8">
-                                        <button type="button" class="btn btn-primary"><i class="fa fa-share-alt"></i> Share</button>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="list-inline list-unstyled">
-                                            <li class="list-inline-item"><p>is this helpful to you?</p> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-success">Yes</button> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-danger">No</button> </li>
-                                        </ul>
-                                        
-                                        
-                                        
-
-
-                                    </div>
-                                </div>
-   </div>
-   <hr>
-   <div class="one-review ">
-	<div class="row">
-                                    <div class="col-md-6">
-                                        <p>Rahul Roy</p>
-                                    </div>
-                                    <div class="col-md-6 text-success">
-                                        <small>30th Jan</small>
-                                    </div>
-                                </div>
-    <div class="row text-success">
-                                    <div class="col-md-12">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-0"></i><i class="fa fa-star-0"></i><i class="fa fa-star-0"></i>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-12">
-                                        <h6>Worse web hosting company</h6>
-                                        <p>I think I started out at under $3 per month 5 or 6 years ago. The price has steadily increased and my latest renewal offer was $16.99 per month. Additionally last year my wife started having spam problems and it seems like someone gained access to all her email correspondence. The only place that we could pin it down to was the justhost SMTP server. Support was very evasive when I tried to explain what I thought happened.</p>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-8">
-                                        <button type="button" class="btn btn-primary"><i class="fa fa-share-alt"></i> Share</button>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="list-inline list-unstyled">
-                                            <li class="list-inline-item"><p>is this helpful to you?</p> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-success">Yes</button> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-danger">No</button> </li>
-                                        </ul>
-                                        
-                                        
-                                        
-
-
-                                    </div>
-                                </div>
-   </div>
-   <hr>
-   <div class="one-review">
-	<div class="row">
-                                    <div class="col-md-6">
-                                        <p>Yahman Koolbeans</p>
-                                    </div>
-                                    <div class="col-md-6 text-success">
-                                        <small>30th Jan</small>
-                                    </div>
-                                </div>
-    <div class="row text-success">
-                                    <div class="col-md-12">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-12">
-                                        <h6>So amazing man</h6>
-                                        <p>This site is totally amazing. Whoever made this site work really good together and produce really good stuff. The should 100% get that 30k worth of grades they are hoping for. 
-										Ya boi, Koolbeans.
-										</p>
-                                    </div>
-                                </div>
-    <div class="row pt-2">
-                                    <div class="col-md-8">
-                                        <button type="button" class="btn btn-primary"><i class="fa fa-share-alt"></i> Share</button>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="list-inline list-unstyled">
-                                            <li class="list-inline-item"><p>is this helpful to you?</p> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-success">Yes</button> </li>
-                                            <li class="list-inline-item"><button type="button" class="btn btn-outline-danger">No</button> </li>
-                                        </ul>
-                                        
-                                        
-                                        
-
-
-                                    </div>
-                                </div>
-   </div>
+	</div>
+	</div>
+  
+  <% end %>
 </div>
+
+
+
 
 
 <!-- End of reviews -->
