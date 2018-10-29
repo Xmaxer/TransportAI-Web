@@ -4,11 +4,11 @@
 <% end %>
 <script>
 if(!firebase.apps.length) {
-firebase.initializeApp({
-  apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
-  authDomain: 'transport-ai-1537358687680.firebaseapp.com',
-  projectId: 'transport-ai-1537358687680'
-});
+  firebase.initializeApp({
+    apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
+    authDomain: 'transport-ai-1537358687680.firebaseapp.com',
+    projectId: 'transport-ai-1537358687680'
+  });
 }
 
 // Initialize Cloud Firestore through Firebase
@@ -22,14 +22,14 @@ db.settings({
 var docRef = db.collection("cars").doc("00-XX-00000");
 
 docRef.get().then(function(doc) {
-    if (doc.exists) {
-      //  console.log("Document data:", doc.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
+  if (doc.exists) {
+    //  console.log("Document data:", doc.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
 }).catch(function(error) {
-    console.log("Error getting document:", error);
+  console.log("Error getting document:", error);
 });
 var first = true;
 db.collection("reviews").onSnapshot(function(ss) {
@@ -47,7 +47,7 @@ db.collection("reviews").onSnapshot(function(ss) {
       var text = ""
       var i = 0
       for(i = 0; i < doc.rating; i++) {
-          text += '<i class=\"fas fa-star\"></i>'
+        text += '<i class=\"fas fa-star\"></i>'
       }
       for(i = 0; i < 5-doc.rating; i++){
         text+= '<i class=\"far fa-star\"></i>'
@@ -63,29 +63,31 @@ db.collection("reviews").onSnapshot(function(ss) {
         second: 'numeric',
         timeZoneName: 'short'
       };
-      node.className = 'one-review';
-      node.innerHTML = '<div class=\"row\">\
-              <div class=\"col-md-6\">\
-              <p>' + doc.car + '</p>\
-              </div>\
-              <div class=\"col-md-6 text-success\">\
-              <small>' + doc.created_at.toDate().toLocaleDateString('en-US', dateOptions) + '</small>\
-              </div>\
-              </div>\
-              <div class="row text-success">\
-                <div class="col-md-12">\
-                ' + text + '\
-                </div>\
-                </div>\
-                <div class=\"row pt-2\">\
-                  <div class=\"col-md-12\">\
-                  <p>' + doc.comment + '</p>\
-                  </div>\
-                  </div>\
-                  </div>\
-                  <hr>';
+      node.className = 'media-body';
+      node.innerHTML = '<div class=\"media-heading\">\
+      <div class=\"row\">\
+      <div class=\"col-md-6\"\
+      <p>' + doc.car + '</p>\
+      </div>\
+      <div class=\"col-md-6 text-success\">\
+      <small>' + doc.created_at.toDate().toLocaleDateString('en-US', dateOptions) + '</small>\
+      </div>\
+      </div>\
+      <div class="row text-success">\
+      <div class="col-md-12">\
+      ' + text + '\
+      </div>\
+      </div>\
+      <div class=\"row pt-2\">\
+      <div class=\"col-md-12\">\
+      <p>' + doc.comment + '</p>\
+      </div>\
+      </div>\
+      </div>\
+      </div>\
+      <hr>';
       document.getElementById('title').parentNode.insertBefore(node, document.getElementById('title').nextSibling);
-    //  console.log("new reviews: ", change.doc.data());
+      //  console.log("new reviews: ", change.doc.data());
     }
   });
 });
@@ -100,42 +102,50 @@ db.collection("reviews").onSnapshot(function(ss) {
 
 <!-- Start of reviews --->
 <div class="container">
-  <div class="row pb-3" id="title">
+  <div class="media comment-box">
     <div class="col-md-12">
-      <h2 class = "heading">Ratings & Reviews</h2>
+      <div class="media-left" id="title">
+        <h2 class = "heading">Ratings & Reviews</h2>
+      </div>
+
+      <% @data.each do |d| %>
+      <div class="meda-body">
+        <div class="media-heading">
+          <div class="row">
+            <div class="col-md-6">
+              <p><%= d.data[:car] %></p>
+            </div>
+            <div class="col-md-6 text-success">
+              <small><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small>
+            </div>
+          </div>
+          <div class="row text-success">
+            <div class="col-md-12">
+              <% x = d.data[:rating] %>
+              <% y = 5 - d.data[:rating] %>
+              <% (1..x).each do |star| %>
+              <i class="fas fa-star"></i>
+              <% end %>
+              <% (1..y).each do |empty| %>
+              <i class="far fa-star"></i>
+              <% end %>
+            </div>
+          </div>
+          <div class="row pt-2">
+            <div class="col-md-12">
+              <p><%= d.data[:comment] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
     </div>
   </div>
-    <% @data.each do |d| %>
-  <div class="one-review">
-    <div class="row">
-      <div class="col-md-6">
-        <p><%= d.data[:car] %></p>
-      </div>
-      <div class="col-md-6 text-success">
-        <small><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small>
-      </div>
-    </div>
-    <div class="row text-success">
-      <div class="col-md-12">
-        <% x = d.data[:rating] %>
-        <% y = 5 - d.data[:rating] %>
-        <% (1..x).each do |star| %>
-        <i class="fas fa-star"></i>
-        <% end %>
-        <% (1..y).each do |empty| %>
-          <i class="far fa-star"></i>
-        <% end %>
-      </div>
-    </div>
-    <div class="row pt-2">
-      <div class="col-md-12">
-        <p><%= d.data[:comment] %></p>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <% end %>
 </div>
+
+
+
 
 
 <!-- End of reviews -->
