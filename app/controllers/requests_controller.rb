@@ -15,7 +15,7 @@ class RequestsController < ApplicationController
         http.request(req)
       end
       respond_to do |format|
-        format.json {render html: res}
+        format.json {render html: res, status: :ok}
       end
     else
       respond_to do |format|
