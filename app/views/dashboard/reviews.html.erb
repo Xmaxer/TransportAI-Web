@@ -66,12 +66,10 @@ db.collection("reviews").onSnapshot(function(ss) {
       };
       node.className = 'media-body';
       node.innerHTML = '<div class=\"media-heading\">\
+                  <div class="one-review">\
       <div class=\"row\">\
       <div class=\"col-md-6\"\
-      <p>' + doc.car + '</p>\
-      </div>\
-      <div class=\"col-md-6 text-success\">\
-      <small>' + doc.created_at.toDate().toLocaleDateString('en-US', dateOptions) + '</small>\
+      <p class=\"ptag\">' + doc.car + ' | <small class=\"date\">' + doc.created_at.toDate().toLocaleDateString('en-US', dateOptions) + '</small></p>\
       </div>\
       </div>\
       <div class="row text-success">\
@@ -81,7 +79,8 @@ db.collection("reviews").onSnapshot(function(ss) {
       </div>\
       <div class=\"row pt-2\">\
       <div class=\"col-md-12\">\
-      <p>' + doc.comment + '</p>\
+      <p class=\"ptag\">' + doc.comment + '</p>\
+      </div>\
       </div>\
       </div>\
       </div>\
@@ -110,15 +109,12 @@ db.collection("reviews").onSnapshot(function(ss) {
         </div>
 
         <% @data.each do |d| %>
-        <div class="meda-body">
+        <div class="media-body">
           <div class="media-heading">
             <div class="one-review">
               <div class="row">
                 <div class="col-md-6">
-                  <p class="ptag"><%= d.data[:car] %></p>
-                </div>
-                <div class="col-md-6 text-success">
-                  <small class="date"><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small>
+                  <p class="ptag"><%= d.data[:car] %> | <small class="date"><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small></p>
                 </div>
               </div>
               <div class="row text-success">
