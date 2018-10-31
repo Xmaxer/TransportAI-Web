@@ -36,7 +36,7 @@
           <li class="active ">
             <%= link_to dashboard_url do %>
             <i class="fas fa-home"></i>
-            Dashboard
+            <p>Dashboard</p>
             <% end %>
           </li>
           <li>
@@ -46,10 +46,10 @@
             </a>
           </li>
           <li>
-            <a href="manageCars.html">
-              <i class="fas fa-car"></i>
-              <p>Manage Cars</p>
-            </a>
+            <%= link_to dashboard_cars_path do %>
+            <i class="fas fa-car"></i>
+            <p>Manage Cars</p>
+            <% end %>
           </li>
           <li>
             <a href="managePayments.html">
@@ -60,7 +60,7 @@
           <li>
             <%= link_to dashboard_reviews_path do %>
             <i class="fas fa-star-half-alt"></i>
-            Ratings and Reviews
+            <p>Ratings and Reviews</p>
             <% end %>
           </li>
           <li>
@@ -72,7 +72,7 @@
           <li>
             <%= link_to logout_path, method: :delete do %>
             <i class="fas fa-sign-out-alt"></i>
-            Logout
+            <p>Logout</p>
             <% end %>
           </li>
         </ul>

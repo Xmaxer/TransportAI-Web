@@ -1,0 +1,130 @@
+<% content_for(:header) do %>
+<%= stylesheet_link_tag    'dashboard/cars', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Car List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="myTable">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Car Icon
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Make
+                </th>
+                <th>
+                  Model
+                </th>
+                <th>
+                  Number Plate
+                </th>
+                <th>
+                  Number of Seats
+                </th>
+
+              </tr>
+
+              <tr>
+                <%= form_for :car_details, url: dashboard_submit_car_path, remote:true do |f|%>
+                <td>
+                  <%= f.file_field :image, id: "filebutton", class: "input-file" %>
+                </td>
+                <td>
+                  <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Name" %>
+                </td>
+                <td>
+                  <%= f.text_field :make, class: "form-control", id: "make", placeholder: "Make" %>
+                </td>
+                <td>
+                  <%= f.text_field :model, class: "form-control", id: "model", placeholder: "Model" %>
+                </td>
+                <td>
+                  <%= f.text_field :number_plate, class: "form-control", id: "noPlate", placeholder: "Number Plate" %>
+                </td>
+                <td>
+                  <%= f.text_field :seats, class: "form-control", id: "noOfSeats", placeholder: "Seats" %>
+                </td>
+                <td>
+                  <%= f.submit "Add", class: "btn btn-default", name: "singlebutton", id: "addButton", data: { disable_with: false} %>
+                </td>
+                <% end %>
+              </tr>
+
+            </thead>
+            <tbody>
+              <% @data.each do |car| %>
+              <tr>
+                <td>
+                  <%= image_tag "/cars/" + car.data[:image], class: "img-responsive img-fluid" %>
+                </td>
+                <td>
+                  <%= car.data[:make] + " " + car.data[:model] %>
+                </td>
+                <td>
+                  <%= car.data[:make] %>
+                </td>
+                <td>
+                  <%= car.data[:model] %>
+                </td>
+                <td>
+                  <%= car.document_id %>
+                </td>
+                <td>
+                  <%= car.data[:seats].to_s + "-seater" %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="clearfix"></div>
+</div>
+<script>
+
+$(document).ready(function() {
+  $('#addButton').click(function() {
+    console.log("hello");
+    var table = document.getElementById("myTable");
+    var button = document.getElementById("addButton");
+    var file = document.getElementById("filebutton").value;
+    var carName = document.getElementById("name").value;
+    var carMake = document.getElementById("make").value;
+    var carModel = document.getElementById("model").value;
+    var numberOfSeats = document.getElementById("noOfSeats").value;
+    var numberPlate = document.getElementById("noPlate").value;
+
+    var row = table.insertRow(2);
+
+    var cell0 = row.insertCell(0)
+    var cell1 = row.insertCell(1);
+    var cell2 = row.insertCell(2);
+    var cell3 = row.insertCell(3);
+    var cell4 = row.insertCell(4);
+    var cell5 = row.insertCell(5);
+
+    cell0.innerHTML = file;
+    cell1.innerHTML = carName;
+    cell2.innerHTML = carMake;
+    cell3.innerHTML = carModel;
+    cell4.innerHTML = numberPlate;
+    cell5.innerHTML = numberOfSeats;
+
+
+  });
+});
+
+</script>
