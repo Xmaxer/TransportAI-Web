@@ -23,7 +23,7 @@
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="../assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
-<link href="ciaraCSS.css" rel="stylesheet" />
+<link href="../assets/css/ciaraCSS.css" rel="stylesheet" />
   <style>
 	
 	/* Testimonials */
@@ -108,6 +108,139 @@
 	.main-panel {
 	border-top: 2px solid #1f105f;
 	}
+	
+	h2 {
+	color: #000;
+	font-size: 26px;
+	font-weight: 300;
+	text-align: center;
+	text-transform: uppercase;
+	position: relative;
+	margin: 30px 0 80px;
+	
+	}
+	h2 b {
+		color: #fff;
+	}
+	h2::after {
+		content: "";
+		width: 100px;
+		position: absolute;
+		margin: 0 auto;
+		height: 4px;
+		
+		left: 0;
+		right: 0;
+		bottom: -20px;
+	}
+	.carousel {
+		margin: 50px auto;
+		padding: 0 70px;
+	}
+	.carousel .item {
+		min-height: 330px;
+		text-align: center;
+		overflow: hidden;
+	}
+	.carousel .item .img-box {
+		height: 160px;
+		width: 100%;
+		position: relative;
+	}
+	.carousel .item img {	
+		max-width: 100%;
+		max-height: 100%;
+		display: inline-block;
+		position: absolute;
+		bottom: 0;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+	}
+	.carousel .item h4 {
+		font-size: 18px;
+		margin: 10px 0;
+	}
+	.carousel .item .btn {
+		color: #333;
+		border-radius: 0;
+		font-size: 11px;
+		text-transform: uppercase;
+		font-weight: bold;
+		background: none;
+		border: 1px solid #ccc;
+		padding: 5px 10px;
+		margin-top: 5px;
+		line-height: 16px;
+	}
+	.carousel .item .btn:hover, .carousel .item .btn:focus {
+		color: #fff;
+		background: blue;
+		border-color: #000;
+		box-shadow: none;
+	}
+	.carousel .item .btn i {
+		font-size: 14px;
+		font-weight: bold;
+		margin-left: 5px;
+	}
+	.carousel .thumb-wrapper {
+		text-align: center;
+	}
+	.carousel .thumb-content {
+		padding: 15px;
+	}
+	.carousel .carousel-control {
+		height: 100px;
+		width: 40px;
+		background: none;
+		margin: auto 0;
+		background: rgba(0, 0, 0, 0.2);
+	}
+	.carousel .carousel-control i {
+		font-size: 30px;
+		position: absolute;
+		top: 50%;
+		display: inline-block;
+		margin: -16px 0 0 0;
+		z-index: 5;
+		left: 0;
+		right: 0;
+		text-shadow: none;
+		font-weight: bold;
+	}
+	.carousel .item-price {
+		font-size: 13px;
+		padding: 2px 0;
+	}
+
+	.carousel .item-price span {
+		color: #86bd57;
+		font-size: 110%;
+	}
+	.carousel .carousel-control.left i {
+		margin-left: -3px;
+	}
+	.carousel .carousel-control.left i {
+		margin-right: -3px;
+	}
+	.carousel .carousel-indicators {
+		bottom: -50px;
+	}
+	.carousel-indicators li, .carousel-indicators li.active {
+		width: 10px;
+		height: 10px;
+		margin: 4px;
+		border-radius: 50%;
+		border-color: transparent;
+	}
+	
+	.btn btn-primary
+	{
+		color: blue;
+	}
+	
+	
 		</style>
 </head>
 
@@ -264,14 +397,140 @@
         </div>
       </div>
       <!-- End Navbar -->
-      <div class="content">
+	        <div class="content">
         <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-		  <div class="card card-plain">
-
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title"> Car List</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table tablesorter " id="myTable">
+                    <thead class=" text-primary">
+                      <tr>
+					  
+						<th>
+                          Car Icon
+                        </th>
+						
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Make
+                        </th>
+                        <th>
+                          Model
+                        </th>
+                        <th>
+                          Number Plate
+                        </th>
+						<th>
+                          Number of Seats
+                        </th>
+						
+                      </tr>
+					  
+					  <tr>
+					  <td>
+					  <input id="filebutton" name="filebutton" class="input-file" type="file">
+					  </td>
+					  
+						  <td>
+							 <input id="name" type="text" class="form-control" placeholder="Name">
+						  </td>
+						  <td>
+							 <input id="make" type="text" class="form-control" placeholder="Make">
+						  </td>
+						  <td>
+							 <input id="model" type="text" class="form-control" placeholder="Model">
+						  </td>
+						  <td>
+							 <input id="noPlate" type="text" class="form-control" placeholder="Number Plate">
+						  </td>
+						  <td>
+							 <input id="noOfSeats" type="text" class="form-control" placeholder="seats">
+						  </td>
+						  <td>
+							<button id="addButton" type="button" name="singlebutton" class="btn btn-default">Add</button>
+						  </td>
+						  
+						  </tr>
+					  
+                    </thead>
+                    <tbody>
+                      <tr>
+						<td>
+							<img src="car.jpg" class="img-responsive img-fluid" alt="">
+						</td>
+                        <td>
+                          Tesla-S
+                        </td>
+                        <td>
+                          Tesla
+                        </td>
+                        <td>
+                          S
+                        </td>
+                        <td>
+                          12-C-88909
+                        </td>
+						<td>
+							6-seater
+						</td>
+                      </tr>
+                      <tr>
+					  <td>
+						<img src="car.jpg" class="img-responsive img-fluid" alt="">
+						</td>
+                        <td>
+                          Tesla-S
+                        </td>
+                        <td>
+                          Tesla
+                        </td>
+                        <td>
+                          S
+                        </td>
+                        <td>
+                          171-CE-67352
+                        </td>
+						<td>
+							12-seater
+						</td>
+                      </tr>
+                      <tr>
+					  <td>
+						<img src="car.jpg" class="img-responsive img-fluid" alt="">
+						</td>
+                        <td>
+                          Tesla-S
+                        </td>
+                        <td>
+                          Tesla
+                        </td>
+                        <td>
+                          S
+                        </td>
+                        <td>
+                          131-TN-80272
+                        </td>
+						<td>
+							6-seater
+						</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-		  </div>
         </div>
+      </div>
+    <div class="clearfix"></div>
+  </div>
 
       <footer class="footer">
         <div class="container-fluid">
@@ -313,6 +572,43 @@
   <script src="../assets/js/black-dashboard.min.js?v=1.0.0"></script>
   <!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
+  
+  <script>
+  
+	$(document).ready(function() {
+		$('#addButton').click(function() {
+				console.log("hello");
+				var table = document.getElementById("myTable");
+				var button = document.getElementById("addButton");
+				var file = document.getElementById("filebutton").value;
+				var carName = document.getElementById("name").value;
+				var carMake = document.getElementById("make").value;
+				var carModel = document.getElementById("model").value;
+				var numberOfSeats = document.getElementById("noOfSeats").value;
+				var numberPlate = document.getElementById("noPlate").value;
+				
+				var row = table.insertRow(2);
+				
+				var cell0 = row.insertCell(0)
+				var cell1 = row.insertCell(1);
+				var cell2 = row.insertCell(2);
+				var cell3 = row.insertCell(3);
+				var cell4 = row.insertCell(4);
+				var cell5 = row.insertCell(5);
+				
+				cell0.innerHTML = file;
+				cell1.innerHTML = carName;
+				cell2.innerHTML = carMake;
+				cell3.innerHTML = carModel;
+				cell4.innerHTML = numberPlate;
+				cell5.innerHTML = numberOfSeats;
+				
+			
+		});
+	});
+  
+  </script>
+  
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -443,6 +739,7 @@
 		  var marker = new google.maps.Marker({position: uluru, map: map});
 		}
     </script>
+	
    
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">

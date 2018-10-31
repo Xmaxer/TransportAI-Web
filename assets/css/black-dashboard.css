@@ -529,7 +529,7 @@ mark,
 
 .img-fluid {
   max-width: 100%;
-  height: auto;
+  height: 80px;
 }
 
 .img-thumbnail {
@@ -10420,11 +10420,11 @@ a.text-darker:focus {
 .navbar .navbar-nav>a.btn:active:hover,
 .navbar .navbar-nav>a.btn.active:focus,
 .navbar .navbar-nav>a.btn.active:hover {
-  background-color: #263148 !important;
-  background-image: linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
+  background-color: #1f105f !important;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
   color: #ffffff;
   box-shadow: none;
 }
@@ -10510,7 +10510,7 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .navbar .navbar-nav>a.btn.btn-simple:focus,
 .navbar .navbar-nav>a.btn.btn-simple:active,
 .navbar .navbar-nav>a.btn.btn-simple:not(:disabled):not(.disabled):active {
-  color: #344675;
+  color: #1f105f;
   border-color: #344675;
   background-color: transparent !important;
   background-image: none !important;
@@ -10531,11 +10531,11 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .navbar .navbar-nav>a.btn.btn-simple.active:active,
 .navbar .navbar-nav>a.btn.btn-simple.active:not(:disabled):not(.disabled):active {
   color: #ffffff;
-  border-color: #344675;
-  background-image: linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
+  border-color: #1f105f;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
   background-color: #263148 !important;
   box-shadow: none;
 }
@@ -10721,11 +10721,11 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .btn-primary:active:hover,
 .btn-primary.active:focus,
 .btn-primary.active:hover {
-  background-color: #ba54f5 !important;
-  background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -o-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  background-color: #1f105f !important;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
   color: #ffffff;
   box-shadow: none;
 }
@@ -10766,13 +10766,13 @@ fieldset[disabled] .btn-primary:focus,
 fieldset[disabled] .btn-primary.focus,
 fieldset[disabled] .btn-primary:active,
 fieldset[disabled] .btn-primary.active {
-  background-color: #e14eca;
+  background-color: #1f105f;
   border-color: #e14eca;
 }
 
 .btn-primary.btn-simple {
-  color: #e14eca;
-  border-color: #e14eca;
+  color: #fff;
+  border-color: #1f105f;
   background: transparent;
 }
 
@@ -10780,15 +10780,15 @@ fieldset[disabled] .btn-primary.active {
 .btn-primary.btn-simple:focus,
 .btn-primary.btn-simple:active,
 .btn-primary.btn-simple:not(:disabled):not(.disabled):active {
-  color: #e14eca;
-  border-color: #e14eca;
+  color: #fff;
+  border-color: #1f105f;
   background-color: transparent !important;
   background-image: none !important;
   box-shadow: none;
 }
 
 .btn-primary.btn-simple.active {
-  border-color: #e14eca !important;
+  border-color: #1f105f !important;
 }
 
 .btn-primary.btn-simple.active:hover,
@@ -10796,11 +10796,11 @@ fieldset[disabled] .btn-primary.active {
 .btn-primary.btn-simple.active:active,
 .btn-primary.btn-simple.active:not(:disabled):not(.disabled):active {
   color: #ffffff;
-  border-color: #e14eca;
-  background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -o-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-  background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  border-color: #1f105f;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
   background-color: #ba54f5 !important;
   box-shadow: none;
 }
@@ -10846,11 +10846,11 @@ fieldset[disabled] .btn-primary.active {
 .btn-success:active:hover,
 .btn-success.active:focus,
 .btn-success.active:hover {
-  background-color: #0098f0 !important;
-  background-image: linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3) !important;
-  background-image: -o-linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3) !important;
-  background-image: -moz-linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3) !important;
+  background-color: #1f105f !important;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #27188b) !important;
   color: #ffffff;
   box-shadow: none;
 }
@@ -16438,8 +16438,7 @@ textarea.form-control:active {
 }
 
 .form-group input[type=file] {
-  opacity: 0;
-  position: absolute;
+
   top: 0;
   right: 0;
   bottom: 0;
@@ -16447,6 +16446,7 @@ textarea.form-control:active {
   width: 100%;
   height: 100%;
   z-index: 100;
+
 }
 
 .form-text {

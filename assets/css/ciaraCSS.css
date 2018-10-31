@@ -1,4 +1,8 @@
 
+	.carImages img {
+		height: 10px;
+	}
+	
 	/* Testimonials */
 	.testimonials blockquote {
 		background: #2b2e3f none repeat scroll 0 0;
