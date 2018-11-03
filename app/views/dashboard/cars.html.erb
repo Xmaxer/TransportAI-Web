@@ -1,5 +1,7 @@
 <% content_for(:header) do %>
 <%= stylesheet_link_tag    'dashboard/cars', media: 'all', 'data-turbolinks-track': 'reload' %>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
 <% end %>
 <div class="row">
   <div class="col-md-12">
@@ -39,13 +41,13 @@
                   <%= f.file_field :image, id: "filebutton", class: "input-file" %>
                 </td>
                 <td>
-                  <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Name" %>
+                  <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Name", disabled:true %>
                 </td>
                 <td>
-                  <%= f.text_field :make, class: "form-control", id: "make", placeholder: "Make" %>
+                  <%= f.text_field :make, class: "form-control", id: "make", placeholder: "Make", onchange: "update();", oninput: "update();" %>
                 </td>
                 <td>
-                  <%= f.text_field :model, class: "form-control", id: "model", placeholder: "Model" %>
+                  <%= f.text_field :model, class: "form-control", id: "model", placeholder: "Model", onchange: "update();", oninput: "update();" %>
                 </td>
                 <td>
                   <%= f.text_field :number_plate, class: "form-control", id: "noPlate", placeholder: "Number Plate" %>
@@ -98,35 +100,78 @@
 <div class="clearfix"></div>
 </div>
 <script>
-
+function update() {
+  var carMake = document.getElementById("make").value;
+  var carModel = document.getElementById("model").value;
+  var nameElement = document.getElementById("name");
+  nameElement.value = carMake + " " + carModel;
+}
+function isBlank(str){
+  return (!str || /^\s*$/.test(str));
+}
 $(document).ready(function() {
   $('#addButton').click(function() {
-    console.log("hello");
+    if(!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+        authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+        projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+      });
+    }
+
+    // Initialize Cloud Firestore through Firebase
+    var db = firebase.firestore();
+
+    // Disable deprecated features
+    db.settings({
+      timestampsInSnapshots: true
+    });
+
+    var colref = db.collection("cars");
+
     var table = document.getElementById("myTable");
     var button = document.getElementById("addButton");
     var file = document.getElementById("filebutton").value;
-    var carName = document.getElementById("name").value;
+
     var carMake = document.getElementById("make").value;
     var carModel = document.getElementById("model").value;
+    var carName = carMake + " " + carModel;
     var numberOfSeats = document.getElementById("noOfSeats").value;
     var numberPlate = document.getElementById("noPlate").value;
 
-    var row = table.insertRow(2);
-
-    var cell0 = row.insertCell(0)
-    var cell1 = row.insertCell(1);
-    var cell2 = row.insertCell(2);
-    var cell3 = row.insertCell(3);
-    var cell4 = row.insertCell(4);
-    var cell5 = row.insertCell(5);
-    var filename = file.split(/(\\|\/)/g).pop();
-    cell0.innerHTML = "<img src='http://ardra.s3.amazonaws.com/public/cars/" + filename + "' class='img-responsive img-fluid'></img>";
-    cell1.innerHTML = carName;
-    cell2.innerHTML = carMake;
-    cell3.innerHTML = carModel;
-    cell4.innerHTML = numberPlate;
-    cell5.innerHTML = numberOfSeats;
-
+    if(isBlank(numberPlate) || isBlank(numberOfSeats) || isBlank(carModel) || isBlank(carMake))
+    {
+      alert("Must fill out all the fields");
+      return;
+    }
+    colref.get().then(function(qs) {
+      var exists = false;
+      qs.forEach(function(doc) {
+        if(doc.id == numberPlate) {
+          exists = true;
+          return;
+        }
+      });
+      if(!exists) {
+        var row = table.insertRow(2);
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var filename = file.split(/(\\|\/)/g).pop();
+        cell0.innerHTML = "<img src='http://ardra.s3.amazonaws.com/public/cars/" + ((isBlank(filename)) ? "default.jpg" : filename) + "' class='img-responsive img-fluid'></img>";
+        cell1.innerHTML = carName;
+        cell2.innerHTML = carMake;
+        cell3.innerHTML = carModel;
+        cell4.innerHTML = numberPlate;
+        cell5.innerHTML = numberOfSeats;
+      }
+      else {
+        alert("Vehicle plate already exists");
+      }
+    });
 
   });
 });

@@ -23,13 +23,13 @@ function initMap() {
   var map = new google.maps.Map(
     document.getElementById('map'), {zoom: 12, center: uluru, gestureHandling: 'cooperative'});
 
-  if(!firebase.apps.length) {
-    firebase.initializeApp({
-      apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
-      authDomain: 'transport-ai-1537358687680.firebaseapp.com',
-      projectId: 'transport-ai-1537358687680'
-    });
-  }
+    if(!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+        authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+        projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+      });
+    }
 
   // Initialize Cloud Firestore through Firebase
   var db = firebase.firestore();
@@ -72,5 +72,5 @@ function initMap() {
 </script>
 
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap">
 </script>

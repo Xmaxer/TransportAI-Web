@@ -6,9 +6,9 @@
 <script>
 if(!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: ' AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU',
-    authDomain: 'transport-ai-1537358687680.firebaseapp.com',
-    projectId: 'transport-ai-1537358687680'
+    apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+    authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+    projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
   });
 }
 
