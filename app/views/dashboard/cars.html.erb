@@ -64,7 +64,11 @@
               <% @data.each do |car| %>
               <tr>
                 <td>
-                  <%= image_tag "/cars/" + car.data[:image], class: "img-responsive img-fluid" %>
+                  <% if file_exists?(car.data[:image]) %>
+                  <%= image_tag ENV['AWS_ENDPOINT'] + car.data[:image], class: "img-responsive img-fluid" %>
+                  <% else %>
+                  <%= image_tag ENV['AWS_ENDPOINT'] + 'default.jpg', class: "img-responsive img-fluid" %>
+                  <% end %>
                 </td>
                 <td>
                   <%= car.data[:make] + " " + car.data[:model] %>
@@ -115,8 +119,8 @@ $(document).ready(function() {
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
     var cell5 = row.insertCell(5);
-
-    cell0.innerHTML = file;
+    var filename = file.split(/(\\|\/)/g).pop();
+    cell0.innerHTML = "<img src='http://ardra.s3.amazonaws.com/public/cars/" + filename + "' class='img-responsive img-fluid'></img>";
     cell1.innerHTML = carName;
     cell2.innerHTML = carMake;
     cell3.innerHTML = carModel;

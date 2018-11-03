@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   layout "dashboard_layout"
   before_action :require_login
   require "google/cloud/firestore"
+  require "aws-sdk-s3"
   def index
 
   end
@@ -34,9 +35,20 @@ class DashboardController < ApplicationController
       image: img.original_filename
     }
     doc.set data
-    File.open(Rails.root.join('public', 'cars', img.original_filename), "wb") do |file|
-      file.write(img.read)
-    end
+    bucket = 'ardra'
+
+    bucket_obj = Aws::S3::Resource.new.bucket(bucket)
+    obj = bucket_obj.object('public/cars/' + File.basename(img.original_filename))
+    obj.upload_file(img.tempfile)
+    client = Aws::S3::Client.new
+    client.put_object_acl({
+      bucket: bucket,
+      acl: "public-read",
+      key: 'public/cars/' + File.basename(img.original_filename)
+      })
+    # File.open(Rails.root.join('public', 'cars', img.original_filename), "wb") do |file|
+    #   file.write(img.read)
+    # end
   end
   private
 
