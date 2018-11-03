@@ -18,15 +18,15 @@ class BraintreeController < ApplicationController
   def checkout
     nonce_from_the_client = params[:payment_method_nonce]
 
-    result = @gateway.transaction.sale(
+    @result = @gateway.transaction.sale(
       amount: params[:amount],
       payment_method_nonce: nonce_from_the_client
     )
 
     respond_to do |format|
-      format.html {render :json => result}
-      format.js {render :js => result}
-      format.json {render :json => result}
+      format.html {render html: @result, layout: 'layouts/braintree_layout'}
+      format.js {render :js => @result}
+      format.json {render :json => @result}
     end
   end
 end
