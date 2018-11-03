@@ -24,7 +24,7 @@ class BraintreeController < ApplicationController
     )
 
     respond_to do |format|
-      format.html {render :html => result}
+      format.html {render :json => result}
       format.js {render :js => result}
       format.json {render :json => result}
     end
