@@ -8,6 +8,7 @@
     <div class="card ">
       <div class="card-header">
         <h4 class="card-title"> Car List</h4>
+        <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="SEARCH" >
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -38,7 +39,7 @@
               <tr>
                 <%= form_for :car_details, url: dashboard_submit_car_path, remote:true do |f|%>
                 <td>
-                  <%= f.file_field :image, id: "filebutton", class: "input-file" %>
+                  <!--  <%= f.file_field :image, id: "filebutton", class: "input-file" %> -->
                 </td>
                 <td>
                   <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Name", disabled:true %>
@@ -100,6 +101,29 @@
 <div class="clearfix"></div>
 </div>
 <script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = document.querySelectorAll('tbody > tr');
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  //tr[0].style.display = "";
+}
+</script>
+<script>
 function update() {
   var carMake = document.getElementById("make").value;
   var carModel = document.getElementById("model").value;
@@ -131,7 +155,7 @@ $(document).ready(function() {
 
     var table = document.getElementById("myTable");
     var button = document.getElementById("addButton");
-    var file = document.getElementById("filebutton").value;
+    //var file = document.getElementById("filebutton").value;
 
     var carMake = document.getElementById("make").value;
     var carModel = document.getElementById("model").value;
@@ -147,20 +171,20 @@ $(document).ready(function() {
     colref.get().then(function(qs) {
       var exists = false;
       qs.forEach(function(doc) {
-        if(doc.id == numberPlate) {
+        if(doc.id.toLowerCase() == numberPlate.toLowerCase()) {
           exists = true;
           return;
         }
       });
       if(!exists) {
         var row = table.insertRow(2);
-        var cell0 = row.insertCell(0)
+        var cell0 = row.insertCell(0);
         var cell1 = row.insertCell(1);
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
         var cell4 = row.insertCell(4);
         var cell5 = row.insertCell(5);
-        var filename = file.split(/(\\|\/)/g).pop();
+        var filename = (carMake + "_" + carModel + ".jpg").toLowerCase();
         cell0.innerHTML = "<img src='http://ardra.s3.amazonaws.com/public/cars/" + ((isBlank(filename)) ? "default.jpg" : filename) + "' class='img-responsive img-fluid'></img>";
         cell1.innerHTML = carName;
         cell2.innerHTML = carMake;

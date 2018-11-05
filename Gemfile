@@ -11,6 +11,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'braintree', "~> 2.90.0"
 gem  'aws-sdk-s3'
+gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
 # Use Puma as the app server
