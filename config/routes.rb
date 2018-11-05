@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   match '/500', to: 'errors#internal_server_error', via: :all
   get 'dashboard/cars', to: 'dashboard#cars'
   post 'dashboard/submit_car'
+  get '/tos', to: 'static_pages#tos'
+  get '/privacy_policy', to: 'static_pages#privacy_policy'
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
