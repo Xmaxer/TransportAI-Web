@@ -304,9 +304,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="chartBig1"></canvas>
-                </div>
+			  <div id="curve_chart" style="width: 1200px; height: 400px"></div>
               </div>
             </div>
           </div>
@@ -395,6 +393,8 @@
   <script src="../assets/js/black-dashboard.min.js?v=1.0.0"></script>
   <!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
+  
+  
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -519,9 +519,95 @@
 		  // The location of Uluru
 		  var uluru = {lat: 51.8987528, lng: -8.4706315};
 		  // The map, centered at Uluru
-		  var map = new google.maps.Map(
-			  document.getElementById('map'), {zoom: 4, center: uluru});
-		  // The marker, positioned at Uluru
+		  
+
+		  
+		  var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12, 
+		  center: uluru,
+          styles: [
+            {elementType: 'geometry', stylers: [{color: '#27293d'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#dbdcdf'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#505066'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#505066'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#4c6aaa'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#505066'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ]
+        });
+		
+				  // The marker, positioned at Uluru
 		  var marker = new google.maps.Marker({position: uluru, map: map});
 		}
     </script>
@@ -530,6 +616,61 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">
     </script>
 
+	  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Income', 'Expenses'],
+          ['Monday',  890,      120],
+          ['Tuesday',  700,      300],
+          ['Wednesday',  450,       780],
+          ['Thursday',  1010,      360]
+        ]);
+
+        var options = {
+          title: 'Company Performance',
+		  backgroundColor: 'transparent',
+          legend: { position: 'bottom' },
+		  
+		  titleTextStyle: {
+				color: '#dbdcdf'
+		},
+
+		  hAxis: {
+			textStyle: {
+				color: '#dbdcdf'
+        },
+		
+		titleTextStyle: {
+            color: '#dbdcdf'
+			}
+		},
+   
+		vAxis: {
+			textStyle: {
+				color: '#dbdcdf'
+        },
+		
+        titleTextStyle: {
+            color: '#dbdcdf'
+			}
+		},
+   
+		legend: {
+      	  textStyle: {
+            color: '#dbdcdf'
+				}
+			}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 </body>
 
 </html>

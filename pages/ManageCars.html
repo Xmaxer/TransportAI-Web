@@ -402,7 +402,9 @@
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header">
+			  
                 <h4 class="card-title"> Car List</h4>
+				<input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="SEARCH" >
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -573,6 +575,29 @@
   <!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
   
+  <script>
+function myFunction() {
+  // Declare variables 
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+}
+</script>
+
   <script>
   
 	$(document).ready(function() {
