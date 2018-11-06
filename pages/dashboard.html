@@ -279,14 +279,14 @@
                   <div class="col-sm-6">
                     <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
                       <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                        <input type="radio" name="options" checked>
+                        <input type="radio" onclick="drawChart();" name="options" checked>
                         <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Income</span>
                         <span class="d-block d-sm-none">
                           <i class="tim-icons icon-single-02"></i>
                         </span>
                       </label>
                       <label class="btn btn-sm btn-primary btn-simple" id="1">
-                        <input type="radio" class="d-none d-sm-none" name="options">
+                        <input type="radio" onClick="drawHisto();" class="d-none d-sm-none" name="options">
                         <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Purchases</span>
                         <span class="d-block d-sm-none">
                           <i class="tim-icons icon-gift-2"></i>
@@ -303,8 +303,8 @@
                   </div>
                 </div>
               </div>
-              <div class="card-body">
-			  <div id="curve_chart" style="width: 1200px; height: 400px"></div>
+              <div class="card-body" id="charts-body">
+				  <div id="chart" style="width: 1200px; height: 400px"></div>
               </div>
             </div>
           </div>
@@ -313,28 +313,11 @@
           <div class="col-md-6 col-md-offset-3">
 		  <div class="card card-plain">
 			<div class="card-header">
-                Reviews
+                Profit Per Car
               </div>
 			  <div class="card-body">
 		  <div class="testimonials">
-						<blockquote><p id="p-tag">
-							<div class="pull-left">
-							  <span class="testimonials-name">John Smith</span>
-							  <span class="testimonials-post">JohnnySmitho@gmail.com</span>
-							</div>I like this app. I like this app. I like this app.
-						</p></blockquote>
-						<blockquote><p id="p-tag2">
-							<div class="pull-left">
-							  <span class="testimonials-name">Brenda Murray</span>
-							  <span class="testimonials-post">BrendaMurray@gmail.com</span>
-							</div>I like this app. I like this app. I like this app.
-						</p></blockquote>
-						<blockquote><p id="p-tag3">
-							<div class="pull-left">
-							  <span class="testimonials-name">Wendyw Woo</span>
-							  <span class="testimonials-post">wendywoowoo@gmail.com</span>
-							</div>I like this app. I like this app. I like this app.
-						</p></blockquote>
+						
 					</div>
 					</div>
           </div>
@@ -394,7 +377,54 @@
   <!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
   
-  
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawHisto);
+      function drawHisto() {
+	  	  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+		  
+        var data = google.visualization.arrayToDataTable([
+          ['Dinosaur', 'Length'],
+          ['Acrocanthosaurus (top-spined lizard)', 12.2],
+          ['Albertosaurus (Alberta lizard)', 9.1],
+          ['Allosaurus (other lizard)', 12.2],
+          ['Apatosaurus (deceptive lizard)', 22.9],
+          ['Archaeopteryx (ancient wing)', 0.9],
+          ['Argentinosaurus (Argentina lizard)', 36.6],
+          ['Baryonyx (heavy claws)', 9.1],
+          ['Brachiosaurus (arm lizard)', 30.5],
+          ['Ceratosaurus (horned lizard)', 6.1],
+          ['Coelophysis (hollow form)', 2.7],
+          ['Compsognathus (elegant jaw)', 0.9],
+          ['Deinonychus (terrible claw)', 2.7],
+          ['Diplodocus (double beam)', 27.1],
+          ['Dromicelomimus (emu mimic)', 3.4],
+          ['Gallimimus (fowl mimic)', 5.5],
+          ['Mamenchisaurus (Mamenchi lizard)', 21.0],
+          ['Megalosaurus (big lizard)', 7.9],
+          ['Microvenator (small hunter)', 1.2],
+          ['Ornithomimus (bird mimic)', 4.6],
+          ['Oviraptor (egg robber)', 1.5],
+          ['Plateosaurus (flat lizard)', 7.9],
+          ['Sauronithoides (narrow-clawed lizard)', 2.0],
+          ['Seismosaurus (tremor lizard)', 45.7],
+          ['Spinosaurus (spiny lizard)', 12.2],
+          ['Supersaurus (super lizard)', 30.5],
+          ['Tyrannosaurus (tyrant lizard)', 15.2],
+          ['Ultrasaurus (ultra lizard)', 30.5],
+          ['Velociraptor (swift robber)', 1.8]]);
+
+        var options = {
+          title: 'Lengths of dinosaurs, in meters',
+          legend: { position: 'none' },
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('chart'));
+        chart.draw(data, options);
+      }
+    </script>
+	
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -506,13 +536,13 @@
       });
     });
   </script>
-  <script>
+<!-- <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       demo.initDashboardPageCharts();
 
     });
-  </script>
+  </script> -->
       <script>
 		
 		function initMap() {
@@ -622,6 +652,8 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
+	  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+	  
         var data = google.visualization.arrayToDataTable([
           ['Day', 'Income', 'Expenses'],
           ['Monday',  890,      120],
@@ -666,7 +698,7 @@
 			}
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.LineChart(document.getElementById('chart'));
 
         chart.draw(data, options);
       }
