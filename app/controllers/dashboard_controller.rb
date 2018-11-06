@@ -69,6 +69,18 @@ class DashboardController < ApplicationController
       #   file.write(img.read)
       # end
     end
+
+    def payments
+
+    end
+
+    def routes
+
+    end
+
+    def settings
+
+    end
     private
 
     def file_exists?(filename)
@@ -79,7 +91,7 @@ class DashboardController < ApplicationController
       logger.debug(res.code)
       res.code == "304" || res.code == "200"
     end
-    
+
     def require_login
       unless logged_in?
         #head 404

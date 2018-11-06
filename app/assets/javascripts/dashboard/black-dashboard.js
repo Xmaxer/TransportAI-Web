@@ -1,3 +1,5 @@
+//= require jquery
+//= require jquery_ujs
 var transparent = true;
 var transparentDemo = true;
 var fixedTop = false;
@@ -101,15 +103,6 @@ $(document).ready(function() {
     }
   });
 
-  if ($('.full-screen-map').length == 0 && $('.bd-docs').length == 0) {
-    // On click navbar-collapse the menu will be white not transparent
-    $('.collapse').on('show.bs.collapse', function() {
-      $(this).closest('.navbar').removeClass('navbar-transparent').addClass('bg-white');
-    }).on('hide.bs.collapse', function() {
-      $(this).closest('.navbar').addClass('navbar-transparent').removeClass('bg-white');
-    });
-  }
-
   blackDashboard.initMinimizeSidebar();
 
   $navbar = $('.navbar[color-on-scroll]');
@@ -174,15 +167,6 @@ $(document).on('click', '.navbar-toggle', function() {
 $(window).resize(function() {
   // reset the seq for charts drawing animations
   seq = seq2 = 0;
-
-  if ($full_screen_map.length == 0 && $('.bd-docs').length == 0) {
-    var isExpanded = $navbar.find('[data-toggle="collapse"]').attr("aria-expanded");
-    if ($navbar.hasClass('bg-white') && $(window).width() > 991) {
-      $navbar.removeClass('bg-white').addClass('navbar-transparent');
-    } else if ($navbar.hasClass('navbar-transparent') && $(window).width() < 991 && isExpanded != "false") {
-      $navbar.addClass('bg-white').removeClass('navbar-transparent');
-    }
-  }
 });
 
 blackDashboard = {

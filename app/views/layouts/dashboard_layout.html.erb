@@ -40,10 +40,10 @@
             <% end %>
           </li>
           <li>
-            <a href="manageRoutes.html">
-              <i class="fas fa-map-marker-alt"></i>
-              <p>Manage Routes</p>
-            </a>
+            <%= link_to dashboard_routes_path do %>
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Manage Routes</p>
+            <% end %>
           </li>
           <li>
             <%= link_to dashboard_cars_path do %>
@@ -52,10 +52,10 @@
             <% end %>
           </li>
           <li>
-            <a href="managePayments.html">
-              <i class="far fa-credit-card"></i>
-              <p>Manage Payments</p>
-            </a>
+            <%= link_to dashboard_payments_path do %>
+            <i class="far fa-credit-card"></i>
+            <p>Manage Payments</p>
+            <% end %>
           </li>
           <li>
             <%= link_to dashboard_reviews_path do %>
@@ -64,10 +64,10 @@
             <% end %>
           </li>
           <li>
-            <a href="settings.html">
-              <i class="fas fa-cog"></i>
-              <p>Settings</p>
-            </a>
+            <%= link_to dashboard_settings_path do %>
+            <i class="fas fa-cog"></i>
+            <p>Settings</p>
+            <% end %>
           </li>
           <li>
             <%= link_to logout_path, method: :delete do %>
@@ -79,12 +79,19 @@
       </div>
     </div>
     <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent" style="height:75px;background-color:none;">
         <div class="container-fluid">
           <div class="navbar-wrapper">
+            <div class="navbar-toggle d-inline">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
             <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
           </div>
+        </div>
       </nav>
       <div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -235,6 +242,6 @@
         });
       });
     });
-    </script>
-  </body>
-  </html>
+  </script>
+</body>
+</html>

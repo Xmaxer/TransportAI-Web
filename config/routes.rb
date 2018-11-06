@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   post 'dashboard/submit_car'
   get '/tos', to: 'static_pages#tos'
   get '/privacy_policy', to: 'static_pages#privacy_policy'
+  get '/dashboard/payments', to: 'dashboard#payments'
+  get 'dashboard/routes', to: 'dashboard#routes'
+  get 'dashboard/settings', to: 'dashboard#settings'
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

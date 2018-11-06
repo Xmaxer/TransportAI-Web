@@ -93,58 +93,51 @@ db.collection("reviews").onSnapshot(function(ss) {
 });
 </script>
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="card card-plain">
+  <div class="col-md-12">
+    <div class="card">
+      <!-- Start of reviews --->
+      <div class="container" style="height:80vh;overflow-y:scroll;overflow-x:hidden;">
+        <div class="media comment-box">
+          <div class="col-md-12">
+            <div class="media-left" id="title">
+              <h2 class = "heading">Live reviews</h2>
+            </div>
 
-    </div>
-  </div>
-</div>
-
-  <!-- Start of reviews --->
-  <div class="container">
-    <div class="media comment-box">
-      <div class="col-md-12">
-        <div class="media-left" id="title">
-          <h2 class = "heading">Ratings & Reviews</h2>
-        </div>
-
-        <% @data.each do |d| %>
-        <div class="media-body">
-          <div class="media-heading">
-            <div class="one-review">
-              <div class="row">
-                <div class="col-md-6">
-                  <p class="ptag"><%= d.data[:car] %> | <small class="date"><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small></p>
-                </div>
-              </div>
-              <div class="row text-success">
-                <div class="col-md-12">
-                  <% x = d.data[:rating] %>
-                  <% y = 5 - d.data[:rating] %>
-                  <% (1..x).each do |star| %>
-                  <i class="fas fa-star"></i>
-                  <% end %>
-                  <% (1..y).each do |empty| %>
-                  <i class="far fa-star"></i>
-                  <% end %>
-                </div>
-              </div>
-              <div class="row pt-2">
-                <div class="col-md-12">
-                  <p class="ptag"><%= d.data[:comment] %></p>
+            <% @data.each do |d| %>
+            <div class="media-body">
+              <div class="media-heading">
+                <div class="one-review">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <p class="ptag"><%= d.data[:car] %> | <small class="date"><%= d.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %></small></p>
+                    </div>
+                  </div>
+                  <div class="row text-success">
+                    <div class="col-md-12">
+                      <% x = d.data[:rating] %>
+                      <% y = 5 - d.data[:rating] %>
+                      <% (1..x).each do |star| %>
+                      <i class="fas fa-star"></i>
+                      <% end %>
+                      <% (1..y).each do |empty| %>
+                      <i class="far fa-star"></i>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="row pt-2">
+                    <div class="col-md-12">
+                      <p class="ptag"><%= d.data[:comment] %></p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <hr>
+            <% end %>
           </div>
         </div>
-        <hr>
-        <% end %>
       </div>
+      <!-- End of reviews -->
     </div>
   </div>
-
-
-
-
-
-  <!-- End of reviews -->
+</div>
