@@ -64,39 +64,50 @@ class DashboardController < ApplicationController
       #     key: 'public/cars/' + File.basename(img.original_filename)
       #     })
       #   end
-      end
-      # File.open(Rails.root.join('public', 'cars', img.original_filename), "wb") do |file|
-      #   file.write(img.read)
-      # end
     end
+    # File.open(Rails.root.join('public', 'cars', img.original_filename), "wb") do |file|
+    #   file.write(img.read)
+    # end
+  end
 
-    def payments
+  def payments
 
-    end
+  end
 
-    def routes
+  def routes
 
-    end
+  end
 
-    def settings
+  def settings
+    @setting = current_user.settings.new(price_per_km: if Setting.first.nil? then 0 else Setting.last.price_per_km.to_f end,
+    price_per_time: if Setting.first.nil? then 0 else Setting.last.price_per_time.to_f end)
+    @current_distance_price = (1 * if Setting.first.nil? then 0 else Setting.last.price_per_km.to_f end).to_f
+    @current_time_price = (60 * if Setting.first.nil? then 0 else Setting.last.price_per_time.to_f end).to_f
+  end
 
-    end
-    private
+  def new_setting
+    @setting = current_user.settings.build(setting_params)
+    @setting.save
+    redirect_to dashboard_settings_url
+  end
+  private
+  def setting_params
+    params.require(:setting).permit(:price_per_km, :price_per_time)
+  end
+  def file_exists?(filename)
+    require "net/http"
+    url = URI.parse(ENV['AWS_ENDPOINT'] + filename)
+    req = Net::HTTP.new(url.host, url.port)
+    res = req.request_head(url.path)
+    logger.debug(res.code)
+    res.code == "304" || res.code == "200"
+  end
 
-    def file_exists?(filename)
-      require "net/http"
-      url = URI.parse(ENV['AWS_ENDPOINT'] + filename)
-      req = Net::HTTP.new(url.host, url.port)
-      res = req.request_head(url.path)
-      logger.debug(res.code)
-      res.code == "304" || res.code == "200"
-    end
-
-    def require_login
-      unless logged_in?
-        #head 404
-        #render status: 404, :layout => false
-        render 'errors/forbidden', layout: false
-      end
+  def require_login
+    unless logged_in?
+      #head 404
+      #render status: 404, :layout => false
+      render 'errors/forbidden', layout: false
     end
   end
+end

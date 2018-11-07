@@ -23,4 +23,18 @@ class RequestsController < ApplicationController
       end
     end
   end
+
+  def calculate_price
+    if !params[:distance].nil? && !params[:time].nil?
+      respond_to do |format|
+        distance_price = (params[:distance].to_f * Setting.last.price_per_km.to_f).to_f
+        time_price = (params[:time].to_i * Setting.last.price_per_time.to_f).to_f
+        format.html {render html: if distance_price > time_price then distance_price.to_s else time_price.to_s end }
+      end
+    else
+      respond_to do |format|
+        format.html {render html: "Missing distance (in Kilometers) and/or time (in seconds)"}
+      end
+    end
+  end
 end

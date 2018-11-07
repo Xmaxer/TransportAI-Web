@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">Pricing</h4>
+      </div>
+      <div class="card-body">
+        <%= form_for @setting, url: dashboard_new_setting_path do |form| %>
+        <%= form.label :price_per_km, ("Price per kilometer (Currently costs €" + @current_distance_price.to_s + " per km)").to_s %>
+        <%= form.number_field :price_per_km, class: "form-control", placeholder: "Current: " + @current_distance_price.to_s, value: @current_distance_price.to_f, step: :any %>
+        <%= form.label :price_per_time, ("Price per second (Currently costs €" + @current_time_price.to_s + " every 60 seconds)").to_s %>
+        <%= form.number_field :price_per_time, class: "form-control", placeholder: "Current: " + (@current_time_price.to_f / 60).to_s, value: (@current_time_price.to_f / 60).to_f, step: :any %>
+        <%= form.submit "Submit", class: "btn btn-default" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

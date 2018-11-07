@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'braintree/client_token'
   post 'braintree/checkout'
   post 'requests/update_car_location'
+  get 'requests/calculate_price'
   match '/403', to: 'errors#forbidden', via: :all
   match '/404', to: 'errors#not_found', via: :all
   match '/500', to: 'errors#internal_server_error', via: :all
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
   get '/dashboard/payments', to: 'dashboard#payments'
   get 'dashboard/routes', to: 'dashboard#routes'
   get 'dashboard/settings', to: 'dashboard#settings'
+  post 'dashboard/new_setting'
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
