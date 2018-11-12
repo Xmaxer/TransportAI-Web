@@ -1,7 +1,50 @@
 <% content_for(:header) do %>
 <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <% end %>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-chart">
+      <div class="card-header ">
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <h5 class="card-category">Reports</h5>
+            <h2 class="card-title">Report</h2>
+          </div>
+          <div class="col-sm-6">
+            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+              <label class="btn btn-sm btn-primary btn-simple active" onclick="drawChart();" id="0">
+                <input type="radio" name="options" checked>
+                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Profits</span>
+                <span class="d-block d-sm-none">
+                  <i class="tim-icons icon-single-02"></i>
+                </span>
+              </label>
+              <label class="btn btn-sm btn-primary btn-simple" onClick="drawHisto();" id="1">
+                <input type="radio" class="d-none d-sm-none" name="options">
+                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Profit Per Car</span>
+                <span class="d-block d-sm-none">
+                  <i class="tim-icons icon-gift-2"></i>
+                </span>
+              </label>
+              <label class="btn btn-sm btn-primary btn-simple" id="2">
+                <input type="radio" class="d-none" name="options">
+                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sessions</span>
+                <span class="d-block d-sm-none">
+                  <i class="tim-icons icon-tap-02"></i>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" id="charts-body">
+        <div id="chart" style="width: 1200px; height: 400px"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-12">
     <div class="card card-plain">
@@ -23,85 +66,85 @@ function initMap() {
   var map = new google.maps.Map(
     document.getElementById('map'), {zoom: 12, center: uluru, gestureHandling: 'cooperative',
     styles: [
-              {elementType: 'geometry', stylers: [{color: '#27293d'}]},
-              {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-              {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
-              {
-                featureType: 'administrative.locality',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#dbdcdf'}]
-              },
-              {
-                featureType: 'poi',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#505066'}]
-              },
-              {
-                featureType: 'poi.park',
-                elementType: 'geometry',
-                stylers: [{color: '#505066'}]
-              },
-              {
-                featureType: 'poi.park',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#6b9a76'}]
-              },
-              {
-                featureType: 'road',
-                elementType: 'geometry',
-                stylers: [{color: '#38414e'}]
-              },
-              {
-                featureType: 'road',
-                elementType: 'geometry.stroke',
-                stylers: [{color: '#212a37'}]
-              },
-              {
-                featureType: 'road',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#9ca5b3'}]
-              },
-              {
-                featureType: 'road.highway',
-                elementType: 'geometry',
-                stylers: [{color: '#4c6aaa'}]
-              },
-              {
-                featureType: 'road.highway',
-                elementType: 'geometry.stroke',
-                stylers: [{color: '#1f2835'}]
-              },
-              {
-                featureType: 'road.highway',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#f3d19c'}]
-              },
-              {
-                featureType: 'transit',
-                elementType: 'geometry',
-                stylers: [{color: '#505066'}]
-              },
-              {
-                featureType: 'transit.station',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#d59563'}]
-              },
-              {
-                featureType: 'water',
-                elementType: 'geometry',
-                stylers: [{color: '#17263c'}]
-              },
-              {
-                featureType: 'water',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#515c6d'}]
-              },
-              {
-                featureType: 'water',
-                elementType: 'labels.text.stroke',
-                stylers: [{color: '#17263c'}]
-              }
-            ]});
+      {elementType: 'geometry', stylers: [{color: '#27293d'}]},
+      {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+      {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+      {
+        featureType: 'administrative.locality',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#dbdcdf'}]
+      },
+      {
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#505066'}]
+      },
+      {
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [{color: '#505066'}]
+      },
+      {
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#6b9a76'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{color: '#38414e'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{color: '#212a37'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#9ca5b3'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{color: '#4c6aaa'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{color: '#1f2835'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#f3d19c'}]
+      },
+      {
+        featureType: 'transit',
+        elementType: 'geometry',
+        stylers: [{color: '#505066'}]
+      },
+      {
+        featureType: 'transit.station',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#d59563'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [{color: '#17263c'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#515c6d'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'labels.text.stroke',
+        stylers: [{color: '#17263c'}]
+      }
+    ]});
 
     if(!firebase.apps.length) {
       firebase.initializeApp({
@@ -111,46 +154,155 @@ function initMap() {
       });
     }
 
-  // Initialize Cloud Firestore through Firebase
-  var db = firebase.firestore();
+    // Initialize Cloud Firestore through Firebase
+    var db = firebase.firestore();
 
-  // Disable deprecated features
-  db.settings({
-    timestampsInSnapshots: true
-  });
+    // Disable deprecated features
+    db.settings({
+      timestampsInSnapshots: true
+    });
 
-  var markers = [];
-  db.collection("cars").onSnapshot(function(ss) {
-    ss.docChanges().forEach(function(change) {
-      if(change.type == "modified" || change.type == "added"){
-        var doc = change.doc.data();
-        var markerName = change.doc.id;
-        var latlng = {lat: doc.location.latitude, lng: doc.location.longitude};
-        var i;
-        var found = -1;
-        for(i = 0; i < markers.length; i++)
-        {
-          if(markers[i].title == markerName) {
-            markers[i].setPosition(latlng);
-            found = i;
-            break;
+    var markers = [];
+    db.collection("cars").onSnapshot(function(ss) {
+      ss.docChanges().forEach(function(change) {
+        if(change.type == "modified" || change.type == "added"){
+          var doc = change.doc.data();
+          var markerName = change.doc.id;
+          var latlng = {lat: doc.location.latitude, lng: doc.location.longitude};
+          var i;
+          var found = -1;
+          for(i = 0; i < markers.length; i++)
+          {
+            if(markers[i].title == markerName) {
+              markers[i].setPosition(latlng);
+              found = i;
+              break;
+            }
+          }
+
+          if(found <= 0) {
+            var marker = new google.maps.Marker({
+              position: latlng,
+              title: markerName,
+              map: map
+            });
+            markers.push(marker);
           }
         }
-
-        if(found <= 0) {
-          var marker = new google.maps.Marker({
-            position: latlng,
-            title: markerName,
-            map: map
-          });
-          markers.push(marker);
-        }
-      }
+      });
     });
-  });
   }
 </script>
 
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap">
+</script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+
+  var data = google.visualization.arrayToDataTable([
+    ['Day', 'Income', 'Expenses'],
+    ['Monday',  890,      120],
+    ['Tuesday',  700,      300],
+    ['Wednesday',  450,       780],
+    ['Thursday',  1010,      360]
+  ]);
+
+  var options = {
+    title: 'Company Performance',
+    backgroundColor: 'transparent',
+    legend: { position: 'bottom' },
+
+    titleTextStyle: {
+      color: '#dbdcdf'
+    },
+
+    hAxis: {
+      textStyle: {
+        color: '#dbdcdf'
+      },
+
+      titleTextStyle: {
+        color: '#dbdcdf'
+      }
+    },
+
+    vAxis: {
+      textStyle: {
+        color: '#dbdcdf'
+      },
+
+      titleTextStyle: {
+        color: '#dbdcdf'
+      }
+    },
+
+    legend: {
+      textStyle: {
+        color: '#dbdcdf'
+      }
+    }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+  chart.draw(data, options);
+}
+
+function drawHisto() {
+  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+
+  var data = google.visualization.arrayToDataTable([
+    ['Car', 'Profit in Euro', { role: 'style' } ],
+    ['Car 1', 15, 'opacity: 0.2'],
+    ['Car 2', 11, 'opacity: 0.2'],
+    ['Car 3', 25, 'opacity: 0.2'],
+    ['Car 4', 22, 'opacity: 0.2'],
+    ['Car 5', 28, 'opacity: 0.2']
+  ]);
+
+  var options = {
+    title: 'Most Profitable Cars',
+    backgroundColor: 'transparent',
+    legend: { position: 'none' },
+
+
+    titleTextStyle: {
+      color: '#dbdcdf'
+    },
+
+    hAxis: {
+      textStyle: {
+        color: '#dbdcdf'
+      },
+
+      titleTextStyle: {
+        color: '#dbdcdf'
+      }
+    },
+
+    vAxis: {
+      textStyle: {
+        color: '#dbdcdf'
+      },
+
+      titleTextStyle: {
+        color: '#dbdcdf'
+      }
+    },
+
+    legend: {
+      textStyle: {
+        color: '#dbdcdf'
+      }
+    }
+  };
+
+  var chart = new google.visualization.ColumnChart(document.getElementById("chart"));
+  chart.draw(data, options);
+}
 </script>
