@@ -10420,11 +10420,11 @@ a.text-darker:focus {
 .navbar .navbar-nav>a.btn:active:hover,
 .navbar .navbar-nav>a.btn.active:focus,
 .navbar .navbar-nav>a.btn.active:hover {
-  background-color: #263148 !important;
-  background-image: linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
-  background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
+  background-color: #1f105f !important;
+  background-image: linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -o-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
+  background-image: -moz-linear-gradient(to bottom left, #1f105f, #1f105f, #344675) !important;
   color: #ffffff;
   box-shadow: none;
 }
