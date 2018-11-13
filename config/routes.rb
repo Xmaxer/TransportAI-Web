@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'braintree/client_token'
   post 'braintree/checkout'
   post 'requests/update_car_location'
+  post 'requests/confirm_order'
   get 'requests/calculate_price'
   match '/403', to: 'errors#forbidden', via: :all
   match '/404', to: 'errors#not_found', via: :all
