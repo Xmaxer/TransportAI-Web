@@ -1,28 +1,7 @@
 class RequestsController < ApplicationController
   layout false
   skip_before_action :verify_authenticity_token
-  def update_car_location
-    require 'net/http'
-    car = params[:car]
-    if car
-      uri = URI("https://firestore.googleapis.com/v1beta1/projects/transport-ai-1537358687680/databases/(default)/documents/cars/#{car}?updateMask.fieldPaths=location&key=AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU")
-      req = Net::HTTP::Patch.new(uri)
-
-      content = request.body.read
-      req.body = content
-      req.content_type = 'application/json'
-      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
-        http.request(req)
-      end
-      respond_to do |format|
-        format.json {render html: res, status: :ok}
-      end
-    else
-      respond_to do |format|
-        format.json {render html: "No car specified"}
-      end
-    end
-  end
+  require "google/cloud/firestore"
 
   def calculate_price
     if !params[:distance].nil? && !params[:time].nil?
@@ -38,26 +17,106 @@ class RequestsController < ApplicationController
     end
   end
 
-  def confirm_order
-    require 'net/http'
+  def ardra
+    code = params[:code]
     car = params[:car]
-    if car
-      uri = URI("https://firestore.googleapis.com/v1beta1/projects/transport-ai-1537358687680/databases/(default)/documents/cars/#{car}?updateMask.fieldPaths=status&key=AIzaSyC6MpEIqlVRJSLrj1jxKGadGIZF_JmmHoU")
-      req = Net::HTTP::Patch.new(uri)
-
-      content = request.body.read
-      req.body = content
-      req.content_type = 'application/json'
-      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
-        http.request(req)
-      end
+    if car.nil?
       respond_to do |format|
-        format.json {render html: res, status: :ok}
+        format.json {render html: "No car specified"}
+        format.html {render html: "No car specified"}
+      end
+      return
+    end
+    if !code.nil?
+      code = code.to_i
+      case code
+      when 1
+        update_car_location(car)
+      when 2
+        update_car_location_history(car)
+      when 3
+        confirm_order(car)
+      when 4
+        check_order(car)
+      when 5
+        cancel_order(car)
+      else
+        respond_to do |format|
+          format.json {render html: "#{code} is not a valid code"}
+          format.json {render html: "#{code} is not a valid code"}
+        end
       end
     else
       respond_to do |format|
-        format.json {render html: "No car specified"}
+        format.json {render html: "No code specified"}
+        format.html {render html: "No code specified"}
       end
     end
+  end
+
+  private
+
+  def update_car_location(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.doc "cars/#{car}"
+
+    lat = params[:latitude]
+    lng = params[:longitude]
+
+    if lat.nil? || lng.nil?
+      respond_to do |format|
+        format.json {render html: "latlng not specified correctly"}
+        format.html {render html: "latlng not specified correctly"}
+      end
+      return
+    end
+    cars_ref.set({location: {latitude: lat.to_f, longitude: lng.to_f}}, merge: true)
+  end
+
+  def confirm_order(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.doc "cars/#{car}"
+    cars_ref.set({status: 2}, merge: true)
+  end
+
+  def update_car_location_history(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.col "cars/#{car}/location_history"
+
+    lat = params[:latitude]
+    lng = params[:longitude]
+
+    if lat.nil? || lng.nil?
+      respond_to do |format|
+        format.json {render html: "latlng not specified correctly"}
+        format.html {render html: "latlng not specified correctly"}
+      end
+      return
+    end
+    cars_ref.add({location: {latitude: lat.to_f, longitude: lng.to_f}, time: firestore.field_server_time })
+  end
+
+  def check_order(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.doc "cars/#{car}"
+    data = cars_ref.get
+
+    if data.exists?
+      respond_to do |format|
+        format.json {render html: data.data[:status], status: :ok}
+        format.html {render html: data.data[:status], status: :ok}
+      end
+    else
+      respond_to do |format|
+        format.json {render html: (data.document_id.to_s + " doesn't exist").html_safe, status: :ok}
+        format.html {render html: (data.document_id.to_s + " doesn't exist").html_safe, status: :ok}
+      end
+    end
+  end
+
+  def cancel_order(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.doc "cars/#{car}"
+    cars_ref.set({status: 0}, merge: true)
   end
 end
