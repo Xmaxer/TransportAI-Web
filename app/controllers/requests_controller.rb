@@ -18,7 +18,7 @@ class RequestsController < ApplicationController
   end
 
   def ardra
-
+    logger.debug("Started request")
     params.each do |key, value|
       logger.debug("Param: #{key} : #{value}")
     end
