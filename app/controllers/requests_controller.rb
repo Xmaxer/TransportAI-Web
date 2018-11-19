@@ -80,7 +80,7 @@ class RequestsController < ApplicationController
   def confirm_order(car)
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.doc "cars/#{car}"
-    cars_ref.set({status: 2}, merge: true)
+    cars_ref.update({status: 2})
   end
 
   def update_car_location_history(car)
@@ -107,8 +107,8 @@ class RequestsController < ApplicationController
 
     if data.exists?
       respond_to do |format|
-        format.json {render html: data.data[:status], status: :ok}
-        format.html {render html: data.data[:status], status: :ok}
+        format.json {render json: data, status: :ok}
+        format.html {render json: data, status: :ok}
       end
     else
       respond_to do |format|
@@ -121,6 +121,6 @@ class RequestsController < ApplicationController
   def cancel_order(car)
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.doc "cars/#{car}"
-    cars_ref.set({status: 0}, merge: true)
+    cars_ref.update({status: 0})
   end
 end
