@@ -18,6 +18,10 @@ class RequestsController < ApplicationController
   end
 
   def ardra
+
+    params.each do |key, value|
+      logger.debug("Param: #{key} : #{value}")
+    end
     code = params[:code]
     car = params[:car]
     if car.nil?
