@@ -74,7 +74,7 @@ class RequestsController < ApplicationController
       end
       return
     end
-    cars_ref.update({location: {latitude: lat.to_f, longitude: lng.to_f}}, merge: true)
+    cars_ref.update({location: {latitude: lat.to_f, longitude: lng.to_f}})
   end
 
   def confirm_order(car)
