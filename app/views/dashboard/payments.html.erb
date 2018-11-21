@@ -34,7 +34,7 @@
                 <% user_data[:transactions].each do |transaction| %>
                   <tr>
                     <td>
-                      <%= transaction.data[:created_at] %>
+                      <%= transaction.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %>
                     </td>
                     <td>
                       <%= user_data[:email] %>

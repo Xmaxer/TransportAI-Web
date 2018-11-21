@@ -63,15 +63,15 @@
             </thead>
             <tbody>
               <% @data.each do |car| %>
-              <tr>
+              <tr onclick="findCar('<%= car.document_id %>');">
                 <td>
                   <div class="image-container">
-                  <% if file_exists?(car.data[:image]) %>
-                  <%= image_tag ENV['AWS_ENDPOINT'] + car.data[:image], class: "img-responsive img-fluid" %>
-                  <% else %>
-                  <%= image_tag ENV['AWS_ENDPOINT'] + 'default.jpg', class: "img-responsive img-fluid" %>
-                  <% end %>
-                </div>
+                    <% if file_exists?(car.data[:image]) %>
+                    <%= image_tag ENV['AWS_ENDPOINT'] + car.data[:image], class: "img-responsive img-fluid" %>
+                    <% else %>
+                    <%= image_tag ENV['AWS_ENDPOINT'] + 'default.jpg', class: "img-responsive img-fluid" %>
+                    <% end %>
+                  </div>
                 </td>
                 <td>
                   <%= car.data[:make] + " " + car.data[:model] %>
@@ -113,6 +113,71 @@
 <div class="clearfix"></div>
 </div>
 <script>
+if(!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+    authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+    projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+  });
+}
+
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+
+// Disable deprecated features
+db.settings({
+  timestampsInSnapshots: true
+});
+var marker;
+var directionsService;
+var directionsRenderer;
+function findCar(car) {
+
+  db.collection("cars").doc(car).onSnapshot(function(doc) {
+    if(doc.exists) {
+      var data = doc.data();
+      var location = {lat: data.location.latitude, lng: data.location.longitude};
+      var markerName = doc.id
+      if(marker == null) {
+        marker = new google.maps.Marker({
+          position: location,
+          title: markerName,
+          map: map
+        });
+      }
+      else {
+        marker.setPosition(location);
+      }
+
+      db.collection("cars").doc(car).collection("routes").where("completed", "==", false)
+      .get()
+      .then(function(snap) {
+        snap.forEach(function(doc) {
+          data = doc.data();
+           var origin = {lat: data.origin.latitude, lng: data.origin.longitude};
+           var destination = {lat: data.destination.latitude, lng: data.destination.longitude};
+           var request = {
+             origin: origin,
+             destination: destination,
+             travelMode: 'DRIVING',
+             avoidFerries: true,
+             provideRouteAlternatives: false
+           }
+           directionsService.route(request, function(result, status) {
+             if(status == 'OK') {
+               directionsRenderer.setDirections(result);
+             }
+             else { console.log(status); }
+           });
+           return;
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+    }
+  });
+}
 function myFunction() {
   // Declare variables
   var input, filter, table, tr, td, i;
@@ -147,21 +212,6 @@ function isBlank(str){
 }
 $(document).ready(function() {
   $('#addButton').click(function() {
-    if(!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
-        authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
-        projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
-      });
-    }
-
-    // Initialize Cloud Firestore through Firebase
-    var db = firebase.firestore();
-
-    // Disable deprecated features
-    db.settings({
-      timestampsInSnapshots: true
-    });
 
     var colref = db.collection("cars");
 
@@ -214,11 +264,12 @@ $(document).ready(function() {
 
 </script>
 <script>
+var map;
 function initMap() {
   // The location of Uluru
   var uluru = {lat: 51.8987528, lng: -8.4706315};
   // The map, centered at Uluru
-  var map = new google.maps.Map(
+  map = new google.maps.Map(
     document.getElementById('map'), {zoom: 12, center: uluru, gestureHandling: 'cooperative',
     styles: [
       {elementType: 'geometry', stylers: [{color: '#27293d'}]},
@@ -301,51 +352,38 @@ function initMap() {
       }
     ]});
 
-    if(!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
-        authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
-        projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
-      });
-    }
-
-    // Initialize Cloud Firestore through Firebase
-    var db = firebase.firestore();
-
-    // Disable deprecated features
-    db.settings({
-      timestampsInSnapshots: true
-    });
-
-    var markers = [];
-    db.collection("cars").onSnapshot(function(ss) {
-      ss.docChanges().forEach(function(change) {
-        if(change.type == "modified" || change.type == "added"){
-          var doc = change.doc.data();
-          var markerName = change.doc.id;
-          var latlng = {lat: doc.location.latitude, lng: doc.location.longitude};
-          var i;
-          var found = -1;
-          for(i = 0; i < markers.length; i++)
-          {
-            if(markers[i].title == markerName) {
-              markers[i].setPosition(latlng);
-              found = i;
-              break;
-            }
-          }
-
-          if(found <= 0) {
-            var marker = new google.maps.Marker({
-              position: latlng,
-              title: markerName,
-              map: map
-            });
-            markers.push(marker);
-          }
-        }
-      });
-    });
+    // var markers = [];
+    // db.collection("cars").onSnapshot(function(ss) {
+    //   ss.docChanges().forEach(function(change) {
+    //     if(change.type == "modified" || change.type == "added"){
+    //       var doc = change.doc.data();
+    //       var markerName = change.doc.id;
+    //       var latlng = {lat: doc.location.latitude, lng: doc.location.longitude};
+    //       var i;
+    //       var found = -1;
+    //       for(i = 0; i < markers.length; i++)
+    //       {
+    //         if(markers[i].title == markerName) {
+    //           markers[i].setPosition(latlng);
+    //           found = i;
+    //           break;
+    //         }
+    //       }
+    //
+    //       if(found <= 0) {
+    //         var marker = new google.maps.Marker({
+    //           position: latlng,
+    //           title: markerName,
+    //           map: map
+    //         });
+    //         markers.push(marker);
+    //       }
+    //     }
+    //   });
+    // });
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
   }
 </script>
 <script async defer
