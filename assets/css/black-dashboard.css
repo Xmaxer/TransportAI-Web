@@ -1482,6 +1482,7 @@ pre code {
   width: 100%;
   margin-bottom: 1rem;
   background-color: transparent;
+  padding-right: 80px;
 }
 
 .table th,

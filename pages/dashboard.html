@@ -105,9 +105,17 @@
 	  border-radius: 5px;
 	  transition: 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
 	}
+	
+	tr:hover {
+	background-color: #404a9e;
+	}
 	   
 	.main-panel {
 	border-top: 2px solid #1f105f;
+	}
+	
+	.form-control {
+	padding: 40px;
 	}
 		</style>
 </head>
@@ -595,6 +603,30 @@
 		}
     </script>
    
+   <script>
+	function searchFunction() {
+	  // Declare variables 
+	  var input, filter, table, tr, td, i, td2;
+	  input = document.getElementById("myInput");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("myTable");
+	  tr = table.getElementsByTagName("tr");
+
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[1];
+		td2 = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+		  if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			tr[i].style.display = "";
+		  } else {
+			tr[i].style.display = "none";
+		  }
+		} 
+	  }
+	}
+</script>
+
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">
     </script>
@@ -657,58 +689,104 @@
       }
 	  
 	        function drawHisto() {
-	  	  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+			
+			document.getElementById("charts-body").innerHTML = "<input type=\"text\" id=\"myInput\" class=\"form-control\" onkeyup=\"searchFunction()\" placeholder=\"SEARCH\" >";
+			document.getElementById("charts-body").innerHTML += '<table class="table tablesorter " id="myTable">\
+                    <thead class=" text-primary">\
+                      <tr>\
+                        <th>\
+                          Name\
+                        </th>\
+                        <th>\
+                          Number Plate\
+                        </th>\
+                      </tr>\
+					  <tr>\
+						  </tr>\
+                    </thead>\
+                    <tbody>\
+                      <tr onclick="chartOnClick()">\
+                        <td>\
+                          Tesla-S\
+                        </td>\
+                        <td>\
+                          12-C-88909\
+                        </td>\
+                      </tr>\
+					  <tr onclick="chartOnClick()">\
+                        <td>\
+                          Ford\
+                        </td>\
+                        <td>\
+                          14-D-82349\
+                        </td>\
+                      </tr>\
+                    </tbody>\
+                  </table>';
+				  
+	  	  document.getElementById("charts-body").innerHTML += "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
 		  
-      var data = google.visualization.arrayToDataTable([
-        ['Car', 'Profit in Euro', { role: 'style' } ],
-        ['Car 1', 15, 'opacity: 0.2'],
-        ['Car 2', 11, 'opacity: 0.2'],
-        ['Car 3', 25, 'opacity: 0.2'],
-        ['Car 4', 22, 'opacity: 0.2'],
-        ['Car 5', 28, 'opacity: 0.2']
-      ]);
-	  
-        var options = {
-          title: 'Most Profitable Cars',
-		  backgroundColor: 'transparent',
-          legend: { position: 'none' },
-		  
-		  
-		   titleTextStyle: {
-				color: '#dbdcdf'
-		},
+		 
 
-		  hAxis: {
-			textStyle: {
-				color: '#dbdcdf'
-        },
-		
-		titleTextStyle: {
-            color: '#dbdcdf'
-			}
-		},
-   
-		vAxis: {
-			textStyle: {
-				color: '#dbdcdf'
-        },
-		
-        titleTextStyle: {
-            color: '#dbdcdf'
-			}
-		},
-   
-		legend: {
-      	  textStyle: {
-            color: '#dbdcdf'
-				}
-			}
-        };
-
-        var chart = new google.visualization.ColumnChart(document.getElementById("chart"));
-        chart.draw(data, options);
-      }
+			  }
     </script>
+	
+	<script>
+	
+	function chartOnClick()
+	{
+	
+	var data = google.visualization.arrayToDataTable([
+				  ['Day', 'Income', 'Expenses'],
+				  ['Monday',  890,      120],
+				  ['Tuesday',  700,      300],
+				  ['Wednesday',  450,       780],
+				  ['Thursday',  1010,      360]
+				]);
+
+					var options = {
+				  title: 'Company Performance',
+				  backgroundColor: 'transparent',
+				  legend: { position: 'bottom' },
+				  
+				  titleTextStyle: {
+						color: '#dbdcdf'
+				},
+
+				  hAxis: {
+					textStyle: {
+						color: '#dbdcdf'
+				},
+				
+				titleTextStyle: {
+					color: '#dbdcdf'
+					}
+				},
+		   
+				vAxis: {
+					textStyle: {
+						color: '#dbdcdf'
+				},
+				
+				titleTextStyle: {
+					color: '#dbdcdf'
+					}
+				},
+		   
+				legend: {
+				  textStyle: {
+					color: '#dbdcdf'
+						}
+					}
+				};
+
+				var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+				chart.draw(data, options);
+			
+			}
+	
+	</script>
 </body>
 
 </html>
