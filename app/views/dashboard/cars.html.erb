@@ -65,11 +65,13 @@
               <% @data.each do |car| %>
               <tr>
                 <td>
+                  <div class="image-container">
                   <% if file_exists?(car.data[:image]) %>
                   <%= image_tag ENV['AWS_ENDPOINT'] + car.data[:image], class: "img-responsive img-fluid" %>
                   <% else %>
                   <%= image_tag ENV['AWS_ENDPOINT'] + 'default.jpg', class: "img-responsive img-fluid" %>
                   <% end %>
+                </div>
                 </td>
                 <td>
                   <%= car.data[:make] + " " + car.data[:model] %>
