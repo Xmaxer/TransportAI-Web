@@ -24,128 +24,36 @@
                 <th class="text-center">
                   Amount
                 </th>
+                <th>
+                  Points Used
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  12/11/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €12.90
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  19/10/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €9.80
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  11/10/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €12.00
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  02/10/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €11.80
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  28/09/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €7.20
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  21/09/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €4.50
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  17/09/18
-                </td>
-                <td>
-                  email@email.com
-                </td>
-                <th>
-                  12903847
-                </th>
-                <td>
-                  Paypal
-                </td>
-                <td class="text-center">
-                  €8.90
-                </td>
-              </tr>
+              <% @transactions.each do |user, user_data| %>
+                <% user_data[:transactions].each do |transaction| %>
+                  <tr>
+                    <td>
+                      <%= transaction.data[:created_at] %>
+                    </td>
+                    <td>
+                      <%= user_data[:email] %>
+                    </td>
+                    <th>
+                      <%= user %>
+                    </th>
+                    <td>
+                      <%= transaction.data[:payment_method] %>
+                    </td>
+                    <td class="text-center">
+                      <%= transaction.data[:amount] %>
+                    </td>
+                    <td>
+                      <%= transaction.data[:points_used] %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
             </tbody>
           </table>
         </div>

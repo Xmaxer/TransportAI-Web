@@ -46,7 +46,7 @@ class RequestsController < ApplicationController
         cancel_order(car)
       else
         respond_to do |format|
-          format.json {render html: "#{code} is not a valid code"}
+          format.html {render html: "#{code} is not a valid code"}
           format.json {render html: "#{code} is not a valid code"}
         end
       end

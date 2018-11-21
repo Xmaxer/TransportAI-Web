@@ -10,26 +10,25 @@ class DashboardController < ApplicationController
   end
   def reviews
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
-    reviews_ref = firestore.col "reviews"
-    @data = reviews_ref.order('created_at', 'desc').limit(10).get
+    users_ref = firestore.col("users").get
+    @reviews = []
+    max = 50
+    users_ref.each do |user|
+      reviews_ref = firestore.col("users").doc(user.document_id.to_s).col("reviews").get
+      reviews_ref.each do |review|
+        @reviews.push({email: if user.data[:email].nil? then user.document_id.to_s else user.data[:email].to_s end, review: review})
+      #  @reviews[if user.data[:email].nil? then user.document_id.to_s + "-" +  else user.data[:email].to_s end] = review_hash
+      end
+
+    end
+    @reviews = @reviews.sort {|a, b| b[:review].data[:created_at] <=> a[:review].data[:created_at]}
+    #@reviews = Hash[@reviews.sort_by {|key, val| val.data[:created_at]}]
   end
 
   def cars
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.col "cars"
-    # if !params[:start_at].nil?
-    #   params[:start_at] = eval(params[:start_at])
-    #   @data = cars_ref.order('make', 'desc').order('model', 'desc').start_after([params[:start_at][:make].to_s, params[:start_at][:model].to_s]).limit(2).get
-    # else
-    #   @data = cars_ref.order('make', 'desc').order('model', 'desc').limit(2).get
-    # end
-    # @start_at = {}
-    # @data.each do |d|
-    #   @start_at[:make] = d.data[:make]
-    #   @start_at[:model] = d.data[:model]
-    # end
     @data = cars_ref.order('make', 'desc').get
-    #@data = @data.paginate(@data, {page: params[:page], per_page: 2})
   end
 
   def submit_car
@@ -51,27 +50,19 @@ class DashboardController < ApplicationController
         image: if !file_exists?(filename) then 'default.jpg' else filename end
       }
       doc.set data
-
-      # if !img.nil?
-      #   bucket = 'ardra'
-      #   bucket_obj = Aws::S3::Resource.new.bucket(bucket)
-      #   obj = bucket_obj.object('public/cars/' + File.basename(img.original_filename))
-      #   obj.upload_file(img.tempfile)
-      #   client = Aws::S3::Client.new
-      #   client.put_object_acl({
-      #     bucket: bucket,
-      #     acl: "public-read",
-      #     key: 'public/cars/' + File.basename(img.original_filename)
-      #     })
-      #   end
     end
-    # File.open(Rails.root.join('public', 'cars', img.original_filename), "wb") do |file|
-    #   file.write(img.read)
-    # end
   end
 
   def payments
-
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    users_ref = firestore.col("users").get
+    @transactions = Hash.new()
+    users_ref.each do |user|
+      transactions_ref = firestore.col("users").doc(user.document_id.to_s).col("transactions").get
+      if !transactions_ref.nil?
+        @transactions[user.document_id.to_s] = {email: user.data[:email].to_s, transactions: transactions_ref}
+      end
+    end
   end
 
   def routes
