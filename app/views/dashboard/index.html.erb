@@ -58,7 +58,21 @@
   </div>
 </div>
 <script>
+if(!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+    authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+    projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+  });
+}
 
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+
+// Disable deprecated features
+db.settings({
+  timestampsInSnapshots: true
+});
 function initMap() {
   // The location of Uluru
   var uluru = {lat: 51.8987528, lng: -8.4706315};
@@ -146,22 +160,6 @@ function initMap() {
       }
     ]});
 
-    if(!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
-        authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
-        projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
-      });
-    }
-
-    // Initialize Cloud Firestore through Firebase
-    var db = firebase.firestore();
-
-    // Disable deprecated features
-    db.settings({
-      timestampsInSnapshots: true
-    });
-
     var markers = [];
     db.collection("cars").onSnapshot(function(ss) {
       ss.docChanges().forEach(function(change) {
@@ -204,13 +202,13 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
   document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
 
-  var data = google.visualization.arrayToDataTable([
-    ['Day', 'Income', 'Expenses'],
-    ['Monday',  890,      120],
-    ['Tuesday',  700,      300],
-    ['Wednesday',  450,       780],
-    ['Thursday',  1010,      360]
-  ]);
+  var dataArray = [['Day', 'Income', 'Expenses']];
+  <% @transactions.each do |key, data| %>
+  dataArray.push(['<%= key %>', <%= data[:total].to_f %>, <%= rand(50..500) %>]);
+  <% end %>
+
+  db.collection("users");
+  var data = google.visualization.arrayToDataTable(dataArray);
 
   var options = {
     title: 'Company Performance',
