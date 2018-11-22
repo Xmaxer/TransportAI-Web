@@ -108,6 +108,47 @@
 	.main-panel {
 	border-top: 2px solid #1f105f;
 	}
+	
+    <!--
+	Styling for collapsible table
+	-->
+	
+	.Customer_Info table{ 
+	border-collapse: collapse; 
+	margin:50px auto;
+	}
+
+.Customer_Info th { 
+	background: #27293d; 
+	color: white; 
+	font-weight: bold; 
+	}
+
+.Customer_Info td, th { 
+	padding: 10px; 
+	text-align: left; 
+	font-size: 14px;
+	}
+
+.Customer_Info .labels tr td {
+	background-color: #261786;
+	font-weight: bold;
+	color: #fff;
+}
+
+.Customer_Info .label tr td label {
+	display: block;
+}
+
+
+[data-toggle="toggle"] {
+	display: none;
+}
+
+	tr:hover {
+	background-color: #404a9e;
+	}
+
 		</style>
 </head>
 
@@ -266,11 +307,98 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-		  <div class="card card-plain">
-
+		   <div class="col-12">
+            <div class="card card-chart">
+              <div class="card-header ">
+                <div class="row">
+                  <div class="col-sm-6 text-left">
+                    <h5 class="card-category">Customers</h5>
+                    <table class = "Customer_Info">
+						<thead>
+							<tr>
+								<th>Email</th>
+								<th>Route</th>
+								<th>Route</th>
+								<th>Route</th>
+								<th>Route</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tbody class="labels">
+								<tr>
+									<td colspan="5">
+										<label id="table-hover" for="accounting">Email1</label>
+										<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+									</td>
+								</tr>
+							</tbody>
+							<tbody class="hide">
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+							</tbody>
+							<tbody class="labels">
+								<tr>
+									<td colspan="5">
+										<label id="table-hover" for="management">Email2</label>
+										<input type="checkbox" name="management" id="management" data-toggle="toggle">
+									</td>
+								</tr>
+							</tbody>
+							<tbody class="hide">
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+								<tr>
+									<td>email@email.com</td>
+									<td>Route 1</td>
+									<td>Route 2</td>
+									<td>Route 3</td>
+									<td>Route 4</td>
+								</tr>
+							</tbody>		
+						</tbody>
+					</table>
+					
+                 
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="card-body" id="charts-body">
+				  <div id="chart" style="width: 1200px; height: 20px"></div>
+              </div>
+            </div>
           </div>
-		  </div>
         </div>
 
       <footer class="footer">
@@ -313,6 +441,14 @@
   <script src="../assets/js/black-dashboard.min.js?v=1.0.0"></script>
   <!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
+  
+  <script>
+  $(document).ready(function() {
+	$('[data-toggle="toggle"]').change(function(){
+		$(this).parents().next('.hide').toggle();
+		});
+	});
+	</script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -431,22 +567,6 @@
 
     });
   </script>
-      <script>
-		
-		function initMap() {
-		  // The location of Uluru
-		  var uluru = {lat: 51.8987528, lng: -8.4706315};
-		  // The map, centered at Uluru
-		  var map = new google.maps.Map(
-			  document.getElementById('map'), {zoom: 4, center: uluru});
-		  // The marker, positioned at Uluru
-		  var marker = new google.maps.Marker({position: uluru, map: map});
-		}
-    </script>
-   
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl5UpgvdzRA9pFyjgFHT4yLlIHlAPgXGc&callback=initMap">
-    </script>
 
 </body>
 
