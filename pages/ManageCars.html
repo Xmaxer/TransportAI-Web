@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <!-- CSS Files -->
@@ -243,7 +245,13 @@
 		tr:hover {
 	background-color: #404a9e;
 	}
+	.green {
+	color: green;
+	}
 	
+	.red {
+	color: red;
+	}
 		</style>
 </head>
 
@@ -457,9 +465,7 @@
 						  <td>
 							 <input id="noOfSeats" type="text" class="form-control" placeholder="seats">
 						  </td>
-						  <td>
-							<button id="addButton" type="button" name="singlebutton" class="btn btn-default">Add</button>
-						  </td>
+
 						  
 						  </tr>
 					  
@@ -484,6 +490,15 @@
 						<td>
 							6-seater
 						</td>
+							<td>
+							<button class="btn"><span class="fas fa-power-off green"></span> </button>
+						  </td>
+							<td>
+							<button class="btn"><span class="fas fa-power-off red"></span> </button>
+						  </td>
+						<td>
+							
+						</td>
                       </tr>
                       <tr>
 					  <td>
@@ -504,6 +519,12 @@
 						<td>
 							12-seater
 						</td>
+							<td>
+							<button class="btn"><span class="fas fa-power-off green"></span> </button>
+						  </td>
+							<td>
+							<button class="btn"><span class="fas fa-power-off red"></span> </button>
+						  </td>
                       </tr>
                       <tr>
 					  <td>
@@ -524,6 +545,12 @@
 						<td>
 							6-seater
 						</td>
+						<td>
+							<button class="btn"><span class="fas fa-power-off green"></span> </button>
+						  </td>
+							<td>
+							<button class="btn"><span class="fas fa-power-off red"></span> </button>
+						  </td>
                       </tr>
                       
                     </tbody>
