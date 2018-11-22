@@ -1,8 +1,8 @@
 class RequestsController < ApplicationController
   layout false
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, :except => [:car_profits, :get_cars]
   require "google/cloud/firestore"
-
+  
   def calculate_price
     if !params[:distance].nil? && !params[:time].nil?
       respond_to do |format|

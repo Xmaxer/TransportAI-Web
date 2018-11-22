@@ -24,7 +24,7 @@ class DashboardController < ApplicationController
       end
     end
     @transactions = @transactions.sort_by {|key, value| value[:day_number]}
-    logger.debug(@transactions)
+    #logger.debug(@transactions)
   end
 
   def reviews

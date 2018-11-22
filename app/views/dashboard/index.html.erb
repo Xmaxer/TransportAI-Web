@@ -21,7 +21,7 @@
                   <i class="tim-icons icon-single-02"></i>
                 </span>
               </label>
-              <label class="btn btn-sm btn-primary btn-simple" onClick="drawHisto();" id="1">
+              <label class="btn btn-sm btn-primary btn-simple" onClick="createTab2();" id="1">
                 <input type="radio" class="d-none d-sm-none" name="options">
                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Profit Per Car</span>
                 <span class="d-block d-sm-none">
@@ -250,57 +250,133 @@ function drawChart() {
 
   chart.draw(data, options);
 }
+function searchFunction() {
 
-function drawHisto() {
-  document.getElementById("charts-body").innerHTML = "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
-
-  var data = google.visualization.arrayToDataTable([
-    ['Car', 'Profit in Euro', { role: 'style' } ],
-    ['Car 1', 15, 'opacity: 0.2'],
-    ['Car 2', 11, 'opacity: 0.2'],
-    ['Car 3', 25, 'opacity: 0.2'],
-    ['Car 4', 22, 'opacity: 0.2'],
-    ['Car 5', 28, 'opacity: 0.2']
-  ]);
-
-  var options = {
-    title: 'Most Profitable Cars',
-    backgroundColor: 'transparent',
-    legend: { position: 'none' },
-
-
-    titleTextStyle: {
-      color: '#dbdcdf'
-    },
-
-    hAxis: {
-      textStyle: {
-        color: '#dbdcdf'
-      },
-
-      titleTextStyle: {
-        color: '#dbdcdf'
+  if(cars != null) {
+    var input = document.getElementById("myInput");
+    var filter = input.value.toUpperCase();
+    if(filter) {
+      var html = "";
+      var carArray = cars.cars
+      var max = 5;
+      for(var i = 0; i < carArray.length; i++) {
+        var carName = carArray[i].name.toUpperCase();
+        var plate = carArray[i].license_plate.toUpperCase();
+        if(carName.indexOf(filter) > -1 || plate.indexOf(filter) > -1) {
+          if(max <= 0) {
+            break;
+          }
+          max--;
+          html += '<tr onclick="chartOnClick(\'' + carArray[i].license_plate + '\')">\
+          <td>\
+          ' + carArray[i].name + '\
+          </td>\
+          <td>\
+          ' + carArray[i].license_plate + '\
+          </td>\
+          </tr>\n'
+        }
       }
-    },
-
-    vAxis: {
-      textStyle: {
-        color: '#dbdcdf'
-      },
-
-      titleTextStyle: {
-        color: '#dbdcdf'
-      }
-    },
-
-    legend: {
-      textStyle: {
-        color: '#dbdcdf'
-      }
+      document.getElementById("table-body").innerHTML = html;
     }
-  };
-
-  var chart = new google.visualization.ColumnChart(document.getElementById("chart"));
-  chart.draw(data, options);
+  }
 }
+var cars;
+function createTab2() {
+  $.ajax({
+    url: "api/get_cars",
+    dataType: 'json',
+    success: function(cars) {
+      //console.log(cars.cars);
+      window.cars = cars;
+      document.getElementById("charts-body").innerHTML = "<input type=\"text\" id=\"myInput\" class=\"form-control\" onkeyup=\"searchFunction()\" placeholder=\"SEARCH\" >";
+      var html = '<table class="table tablesorter " id="myTable">\
+      <thead class=" text-primary">\
+      <tr>\
+      <th>\
+      Name\
+      </th>\
+      <th>\
+      Number Plate\
+      </th>\
+      </tr>\
+      <tr>\
+      </tr>\
+      </thead>\
+      <tbody id="table-body">\n';
+      //console.log(String(cars));
+      // for(var i = 0; i < cars.cars.length; i++) {
+      //   html += '<tr onclick="chartOnClick(\'' + cars.cars[i].license_plate + '\')">\
+      //   <td>\
+      //   ' + cars.cars[i].name + '\
+      //   </td>\
+      //   <td>\
+      //   ' + cars.cars[i].license_plate + '\
+      //   </td>\
+      //   </tr>\n'
+      // }
+
+      html += '</tbody>\
+      </table>'
+      document.getElementById("charts-body").innerHTML += html;
+
+      document.getElementById("charts-body").innerHTML += "<div id=\"chart\" style=\"width: 1200px; height: 400px\"></div>"
+    }
+  });
+}
+function chartOnClick(car)
+{
+  $.ajax({
+    url: 'api/car_profits?car=' + car,
+    dataType: 'json',
+    success: function(response) {
+      var array = [['Day', 'Income', 'Expenses']];
+      for(var x in response) {
+        array.push([String(x), response[x].total, <%= rand(10..70) %>]);
+      }
+      var data = google.visualization.arrayToDataTable(array);
+
+      var options = {
+        title: 'Car \'' + car + '\' performance',
+        backgroundColor: 'transparent',
+        legend: { position: 'bottom' },
+
+        titleTextStyle: {
+          color: '#dbdcdf'
+        },
+
+        hAxis: {
+          textStyle: {
+            color: '#dbdcdf'
+          },
+
+          titleTextStyle: {
+            color: '#dbdcdf'
+          }
+        },
+
+        vAxis: {
+          textStyle: {
+            color: '#dbdcdf'
+          },
+
+          titleTextStyle: {
+            color: '#dbdcdf'
+          }
+        },
+
+        legend: {
+          textStyle: {
+            color: '#dbdcdf'
+          }
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+      chart.draw(data, options);
+    }
+  });
+}
+
 </script>

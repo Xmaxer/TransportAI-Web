@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 #  post 'requests/update_car_location'
 #  post 'requests/confirm_order'
   match 'requests/ardra', via: [:get, :post]
+  get 'api/get_cars'
+  get 'api/car_profits'
+  #match ':api/:action', via: [:get]
   #post 'requests/ardra'
   get 'requests/calculate_price'
   match '/403', to: 'errors#forbidden', via: :all
