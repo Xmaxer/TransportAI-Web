@@ -1482,7 +1482,6 @@ pre code {
   width: 100%;
   margin-bottom: 1rem;
   background-color: transparent;
-  padding-right: 80px;
 }
 
 .table th,
@@ -2317,6 +2316,7 @@ textarea.form-control {
   line-height: 1.35em;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -9980,6 +9980,7 @@ button.bg-darker:focus {
 
 .text-left {
   text-align: left !important;
+
 }
 
 .text-right {

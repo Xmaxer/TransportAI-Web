@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Manage Customers
+    Manage Orders
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
@@ -149,6 +149,10 @@
   tr:hover {
     background-color: #404a9e;
   }
+  
+  	.red {
+	color: red;
+	}
 
   </style>
 </head>
@@ -231,7 +235,7 @@
               <span class="navbar-toggler-bar bar3"></span>
             </button>
           </div>
-          <a class="navbar-brand" href="javascript:void(0)">Manage Customers</a>
+          <a class="navbar-brand" href="javascript:void(0)">Manage Orders</a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -317,80 +321,151 @@
         <div class="col-md-12">
           <div class="card card-chart">
             <div class="card-header ">
-              <h5 class="card-category">Customers</h5>
+              <h5 class="card-category">Orders</h5>
             </div>
-            <div class="card-body">
-              <table class = "Customer_Info table tablesorter">
-                <thead>
-                  <tr>
-                    <th>Email</th>
-                    <th>Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Email1</td>
-                    <td>100</td>
-                  </tr>
-                  <tr>
-                    <td>
-                    <table class="table tablesorter" style="margin-left:100px;">
-                      <thead>
-                        <tr>
-                          <th>Payment Method</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Paypal</td>
-                          <td>100</td>
-                          <td>November 15th</td>
-                        </tr>
-                        <tr>
-                          <td>Paypal</td>
-                          <td>100</td>
-                          <td>November 15th</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  </tr>
-                  <tr>
-                    <td>Email2</td>
-                    <td>100</td>
-                  </tr>
-                  <tr>
-                    <td>
-                    <table class="table tablesorter" style="margin-left:100px;">
-                      <thead>
-                        <tr>
-                          <th>Payment Method</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Paypal</td>
-                          <td>100</td>
-                          <td>November 15th</td>
-                        </tr>
-                        <tr>
-                          <td>Paypal</td>
-                          <td>100</td>
-                          <td>November 15th</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  </tr>
-                </tbody>
-              </table>
-
-
-            </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>
+                          Car Number Plate
+                        </th>
+                        <th>
+                          Customer Email
+                        </th>
+                        <th>
+                          Time Elapsed
+                        </th>
+						<th>
+                          Estimated Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+						<td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          00-C-0000
+                        </td>
+                        <td>
+                          email@email.com
+                        </td>
+						<th>
+                          12:09 minutes
+                        </th>
+                        <td>
+						  15:00 minutes
+                        </td>
+													<td>
+							<button class="btn"><span class="fas fa-times red"></span> </button>
+						  </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
           </div>
         </div>
@@ -442,13 +517,6 @@
 <!-- Black Dashboard DEMO methods, don't include it in your project! -->
 <script src="../assets/demo/demo.js"></script>
 
-<script>
-$(document).ready(function() {
-  $('[data-toggle="toggle"]').change(function(){
-    $(this).parents().next('.hide').toggle();
-  });
-});
-</script>
 <script>
 $(document).ready(function() {
   $().ready(function() {
