@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   match 'requests/ardra', via: [:get, :post]
   get 'api/get_cars'
   get 'api/car_profits'
+  get 'api/orders'
   #match ':api/:action', via: [:get]
   #post 'requests/ardra'
   get 'requests/calculate_price'
@@ -29,8 +30,9 @@ Rails.application.routes.draw do
   get '/tos', to: 'static_pages#tos'
   get '/privacy_policy', to: 'static_pages#privacy_policy'
   get '/dashboard/payments', to: 'dashboard#payments'
-  get 'dashboard/routes', to: 'dashboard#routes'
+  get 'dashboard/orders', to: 'dashboard#orders'
   get 'dashboard/settings', to: 'dashboard#settings'
+  get 'dashboard/customers', to: 'dashboard#customers'
   post 'dashboard/new_setting'
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

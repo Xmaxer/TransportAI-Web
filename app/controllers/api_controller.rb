@@ -48,4 +48,43 @@ class ApiController < ApplicationController
       end
     end
   end
-end
+  def orders
+    userid = params[:uid]
+    if userid
+      details = {orders: []}
+      firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+      transactions_ref = firestore.col("users").doc(userid.to_s).col("transactions").get
+      transactions_ref.each do |t|
+        if !t.data[:car_id].nil?
+          routeid = t.data[:route_id]
+          date = t.data[:created_at]
+          amount = t.data[:amount]
+          points_used = t.data[:points_used]
+          payment_method = t.data[:payment_method]
+          logger.debug(t.data[:car_id] + " " + routeid)
+          cars_ref = firestore.col("cars").doc(t.data[:car_id].to_s).col("routes").doc(routeid).get
+          if cars_ref.exists? && cars_ref.data[:completed].to_s == "true"
+            distance = cars_ref.data[:distance]
+            details[:orders].push({
+              routeid: routeid,
+              date: date,
+              amount: amount,
+              points_used: points_used,
+              payment_method: payment_method,
+              distance: distance
+              })
+            end
+          end
+        end
+        respond_to do |format|
+          format.json {render json: details.to_json}
+          format.html {render html: details.to_json}
+        end
+      else
+        respond_to do |format|
+          format.json {render json: "{}"}
+          format.html {render html: "{}"}
+        end
+      end
+    end
+  end

@@ -63,7 +63,7 @@
             </thead>
             <tbody>
               <% @data.each do |car| %>
-              <tr onclick="findCar('<%= car.document_id %>');">
+              <tr onclick="findCar('<%= car.document_id %>');" class="car-listing">
                 <td>
                   <div class="image-container">
                     <% if file_exists?(car.data[:image]) %>
@@ -87,6 +87,9 @@
                 </td>
                 <td>
                   <%= car.data[:seats].to_s + "-seater" %>
+                </td>
+                <td>
+                  <button class="btn"><span class="fas fa-power-off <%= if car.data[:status] == 20 then "red" else "green" end%>"></span> </button>
                 </td>
               </tr>
               <% end %>

@@ -26,7 +26,17 @@ class DashboardController < ApplicationController
     @transactions = @transactions.sort_by {|key, value| value[:day_number]}
     #logger.debug(@transactions)
   end
-
+  def customers
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    users_ref = firestore.col("users").get
+    @customers = {}
+    users_ref.each do |user|
+      @customers[user.document_id.to_s] = {
+        email: user.data[:email],
+        points: if user.data[:points] then user.data[:points] else 0 end
+      }
+    end
+  end
   def reviews
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     users_ref = firestore.col("users").get
@@ -84,8 +94,36 @@ class DashboardController < ApplicationController
     end
   end
 
-  def routes
+  def orders
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.col("cars").get
+    @orders = {}
+    cars_ref.each do |car|
+      if !car.data[:route_id].nil?
+        plate = car.document_id
+        route_ref = firestore.col("cars").doc(plate).col("routes").doc(car.data[:route_id]).get
 
+        if route_ref.exists?
+          created = route_ref.data[:created_at].strftime("%s")
+          now = DateTime.now.strftime("%s")
+          difference = now.to_i - created.to_i
+          elapsed = (difference / 60).to_s + " minutes"
+          estimated = (route_ref.data[:time_taken].to_i / 60).to_s + " minutes"
+
+          user_ref = firestore.col("users").doc(route_ref.data[:user_id]).get
+
+          if user_ref.exists?
+          @orders[route_ref.document_id] = {
+            plate: plate,
+            email: user_ref.data[:email],
+            elapsed: elapsed,
+            estimated: estimated,
+            status: car.data[:status]
+          }
+        end
+        end
+      end
+    end
   end
 
   def settings

@@ -39,10 +39,16 @@
             <p>Dashboard</p>
             <% end %>
           </li>
-          <li class="<%= if url_for() == dashboard_routes_path then "active" end %>">
-            <%= link_to dashboard_routes_path do %>
-            <i class="fas fa-map-marker-alt"></i>
-            <p>Manage Routes</p>
+          <li class="<%= if url_for() == dashboard_orders_path then "active" end %>">
+            <%= link_to dashboard_orders_path do %>
+            <i class="fas fa-taxi"></i>
+            <p>Manage Orders</p>
+            <% end %>
+          </li>
+          <li class="<%= if url_for() == dashboard_customers_path then "active" end %>">
+            <%= link_to dashboard_customers_path do %>
+            <i class="fas fa-users"></i>
+            <p>Manage Customers</p>
             <% end %>
           </li>
           <li class="<%= if url_for() == dashboard_cars_path then "active" end %>">

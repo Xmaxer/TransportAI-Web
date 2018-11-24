@@ -1,0 +1,164 @@
+<% content_for(:header) do %>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-chart">
+      <div class="card-header ">
+        <h5 class="card-category">Customers</h5>
+      </div>
+      <div class="card-body">
+        <table class = "Customer_Info table tablesorter">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @customers.each do |id, data| %>
+            <tr onclick="showOrders('<%= id.to_s %>');" id="<%= id.to_s %>">
+              <td><%= data[:email] %></td>
+              <td><%= data[:points] %></td>
+            </tr>
+            <% end %>
+            <!--  <tr onclick="showOrders('ididididid')">
+            <td>Email1</td>
+            <td>100</td>
+          </tr>
+          <tr>
+          <td>
+
+          <table class="table tablesorter" style="margin-left:100px;">
+
+          <thead>
+          <tr><td><h1>Title</h1></td></tr>
+          <tr>
+          <th>Payment Method</th>
+          <th>Amount</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Paypal</td>
+      <td>100</td>
+      <td>November 15th</td>
+    </tr>
+    <tr>
+    <td>Paypal</td>
+    <td>100</td>
+    <td>November 15th</td>
+  </tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>Email2</td>
+<td>100</td>
+</tr>
+<tr>
+<td>
+<table class="table tablesorter" style="margin-left:100px;">
+<thead>
+<tr>
+<th>Payment Method</th>
+<th>Amount</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Paypal</td>
+<td>100</td>
+<td>November 15th</td>
+</tr>
+<tr>
+<td>Paypal</td>
+<td>100</td>
+<td>November 15th</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr> -->
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+</div>
+<div class="card-body" id="charts-body">
+  <div id="chart" style="width: 1200px; height: 20px"></div>
+</div>
+</div>
+
+<script>
+if(!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+    authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+    projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+  });
+}
+
+var db = firebase.firestore();
+
+db.settings({
+  timestampsInSnapshots: true
+});
+</script>
+<script>
+function showOrders(id) {
+  console.log(id)
+  var element = document.getElementById('extra-data-showing');
+  var current = document.getElementById(id);
+  if(current != null) {
+    if(element != null) {
+      element.parentNode.removeChild(element);
+    }
+    $.ajax({
+      url: "/api/orders?uid=" + id,
+      dataType: 'json',
+      success: function(user){
+        element = document.createElement('tr');
+        element.setAttribute('id', "extra-data-showing");
+        var html = '\
+        <td>\
+        <table class="table tablesorter" style="margin-left:100px;">\
+        <thead>\
+        <tr>\
+        <th>Date</th>\
+        <th>Route ID</th>\
+        <th>Payment Method</th>\
+        <th>Amount</th>\
+        <th>Points Used</th>\
+        <th>Distance</th>\
+        </tr>\
+        </thead>\
+        <tbody>';
+        for(var i = 0; i < user.orders.length; i++) {
+          html += '<tr>\
+          <td>' + user.orders[i].date + '</td>\
+          <td>' + user.orders[i].routeid + '</td>\
+          <td>' + user.orders[i].payment_method + '</td>\
+          <td>' + user.orders[i].amount + '</td>\
+          <td>' + user.orders[i].points_used + '</td>\
+          <td>' + user.orders[i].distance + '</td>\
+          </tr>\n'
+
+        }
+        html += '</tbody>\
+        </table>\
+        </td>\n'
+        element.innerHTML = html;
+        current.parentNode.insertBefore(element, current.nextSibling);
+      }
+    });
+  }
+}
+</script>

@@ -1,0 +1,56 @@
+<% content_for(:header) do %>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-chart">
+      <div class="card-header ">
+        <h5 class="card-category">Orders</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Car Number Plate
+                </th>
+                <th>
+                  Customer Email
+                </th>
+                <th>
+                  Time Elapsed
+                </th>
+                <th>
+                  Estimated Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders.each do |id, data| %>
+              <tr>
+                <td>
+                  <%= data[:plate] %>
+                </td>
+                <td>
+                  <%= data[:email] %>
+                </td>
+                <td>
+                  <%= data[:elapsed] %>
+                </td>
+                <td>
+                  <%= data[:estimated] %>
+                </td>
+                <td>
+                  <button class="btn" <%= if [0,1,2].include?(data[:status].to_i) then "disabled" else "" end %>><span class="fas fa-times red"></span> </button>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
