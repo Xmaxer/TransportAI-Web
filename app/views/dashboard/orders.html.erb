@@ -27,9 +27,9 @@
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="order-list">
               <% @orders.each do |id, data| %>
-              <tr>
+              <tr id="<%= data[:plate] %>">
                 <td>
                   <%= data[:plate] %>
                 </td>
@@ -43,7 +43,7 @@
                   <%= data[:estimated] %>
                 </td>
                 <td>
-                  <button class="btn" <%= if [0,1,2].include?(data[:status].to_i) then "disabled" else "" end %>><span class="fas fa-times red"></span> </button>
+                  <button id="<%= data[:plate] %>-button" class="btn" <%= if [0,1,2].include?(data[:status].to_i) then "" else "disabled" end %> onclick="cancelOrder('<%= data[:plate] %>');"><span class="fas fa-times red"></span> </button>
                 </td>
               </tr>
               <% end %>
@@ -54,3 +54,79 @@
     </div>
   </div>
 </div>
+<script>
+if(!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+    authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+    projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+  });
+}
+
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+
+// Disable deprecated features
+db.settings({
+  timestampsInSnapshots: true
+});
+</script>
+<script>
+function cancelOrder(car) {
+  db.collection("cars").doc(car).set({
+      status: 10
+  }, {merge: true});
+}
+var original = {};
+db.collection("cars").onSnapshot(function(snapshot) {
+  snapshot.docChanges().forEach(function(change) {
+    if(change.type === "modified") {
+      var data = change.doc.data();
+      var plate = change.doc.id;
+      var old = original[plate];
+      if(old.route_id != data.route_id) {
+        if(data.route_id == null) {
+          var element = document.getElementById(plate);
+          element.parentNode.removeChild(element);
+        }
+        else {
+          var element = document.createElement('tr');
+          element.setAttribute('id', plate);
+          db.collection("cars").doc(plate).collection("routes").doc(data.route_id)
+          .get().then(function(doc) {
+            var routeData = doc.data();
+            var estimated = (Math.floor(routeData.time_taken / 60)).toString() + " minutes";
+            var elapsed = Math.floor((((Date.now()/1000) - routeData.created_at.seconds) / 60)).toString() + " minutes";
+            db.collection("users").doc(routeData.user_id).get().then(function (userdoc) {
+              var email = userdoc.data().email;
+              var html = '<td>' + plate + '</td>\
+              <td>' + email + '</td>\
+              <td>' + elapsed + '</td>\
+              <td>' + estimated + '</td>\
+              <td><button id="' + plate + '-button" class="btn" ' + ((data.status in [0,1,2]) ? '' : 'disabled') + ' onclick="cancelOrder("' + plate + '")"><span class="fas fa-times red"></span></button></td>\n';
+              element.innerHTML = html;
+              var list = document.getElementById('order-list');
+              list.insertBefore(element, list.childNodes[0]);
+            });
+          });
+        }
+      }
+      var e = document.getElementById(plate + "-button");
+      if(e != null) {
+        if(!(data.status in [0,1,2])) {
+          e.setAttribute("disabled", "true");
+          console.log("Disabling button");
+        }
+        else {
+          console.log("Enabling button");
+          e.removeAttribute("disabled");
+        }
+      }
+      original[plate] = data;
+    }
+    if(change.type === 'added') {
+      original[change.doc.id] = change.doc.data();
+    }
+  });
+});
+</script>
