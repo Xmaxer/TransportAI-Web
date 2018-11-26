@@ -19,71 +19,10 @@
           <tbody>
             <% @customers.each do |id, data| %>
             <tr onclick="showOrders('<%= id.to_s %>');" id="<%= id.to_s %>">
-              <td><%= data[:email] %></td>
-              <td><%= data[:points] %></td>
+              <td class="hoverable"><%= data[:email] %></td>
+              <td class="hoverable"><%= data[:points] %></td>
             </tr>
             <% end %>
-            <!--  <tr onclick="showOrders('ididididid')">
-            <td>Email1</td>
-            <td>100</td>
-          </tr>
-          <tr>
-          <td>
-
-          <table class="table tablesorter" style="margin-left:100px;">
-
-          <thead>
-          <tr><td><h1>Title</h1></td></tr>
-          <tr>
-          <th>Payment Method</th>
-          <th>Amount</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>Paypal</td>
-      <td>100</td>
-      <td>November 15th</td>
-    </tr>
-    <tr>
-    <td>Paypal</td>
-    <td>100</td>
-    <td>November 15th</td>
-  </tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td>Email2</td>
-<td>100</td>
-</tr>
-<tr>
-<td>
-<table class="table tablesorter" style="margin-left:100px;">
-<thead>
-<tr>
-<th>Payment Method</th>
-<th>Amount</th>
-<th>Time</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Paypal</td>
-<td>100</td>
-<td>November 15th</td>
-</tr>
-<tr>
-<td>Paypal</td>
-<td>100</td>
-<td>November 15th</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr> -->
 </tbody>
 </table>
 
@@ -143,7 +82,7 @@ function showOrders(id) {
         </thead>\
         <tbody>';
         for(var i = 0; i < user.orders.length; i++) {
-          html += '<tr>\
+          html += '<tr class="hoverable">\
           <td>' + user.orders[i].date + '</td>\
           <td>' + user.orders[i].routeid + '</td>\
           <td>' + user.orders[i].payment_method + '</td>\

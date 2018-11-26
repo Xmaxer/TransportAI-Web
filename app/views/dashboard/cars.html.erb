@@ -63,7 +63,7 @@
             </thead>
             <tbody>
               <% @data.each do |car| %>
-              <tr onclick="findCar('<%= car.document_id %>');" class="car-listing">
+              <tr onclick="findCar('<%= car.document_id %>');" class="car-listing hoverable">
                 <td>
                   <div class="image-container">
                     <% if file_exists?(car.data[:image]) %>

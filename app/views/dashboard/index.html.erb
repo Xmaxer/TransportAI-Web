@@ -267,7 +267,7 @@ function searchFunction() {
             break;
           }
           max--;
-          html += '<tr onclick="chartOnClick(\'' + carArray[i].license_plate + '\')">\
+          html += '<tr class="hoverable" onclick="chartOnClick(\'' + carArray[i].license_plate + '\')">\
           <td>\
           ' + carArray[i].name + '\
           </td>\
@@ -304,17 +304,6 @@ function createTab2() {
       </tr>\
       </thead>\
       <tbody id="table-body">\n';
-      //console.log(String(cars));
-      // for(var i = 0; i < cars.cars.length; i++) {
-      //   html += '<tr onclick="chartOnClick(\'' + cars.cars[i].license_plate + '\')">\
-      //   <td>\
-      //   ' + cars.cars[i].name + '\
-      //   </td>\
-      //   <td>\
-      //   ' + cars.cars[i].license_plate + '\
-      //   </td>\
-      //   </tr>\n'
-      // }
 
       html += '</tbody>\
       </table>'

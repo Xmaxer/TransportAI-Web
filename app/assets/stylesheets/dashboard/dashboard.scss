@@ -2,6 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 /* Testimonials */
+.hoverable:hover {
+  background-color: #404a9e;
+}
 .testimonials blockquote {
 	background: #2b2e3f none repeat scroll 0 0;
 	border: medium none;

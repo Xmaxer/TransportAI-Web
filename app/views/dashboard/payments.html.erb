@@ -32,7 +32,7 @@
             <tbody>
               <% @transactions.each do |user, user_data| %>
                 <% user_data[:transactions].each do |transaction| %>
-                  <tr>
+                  <tr class="hoverable">
                     <td>
                       <%= transaction.data[:created_at].strftime("%A, %B %e, %k:%M:%S %p %Z") %>
                     </td>
