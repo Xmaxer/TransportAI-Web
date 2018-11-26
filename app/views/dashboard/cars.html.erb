@@ -89,7 +89,7 @@
                   <%= car.data[:seats].to_s + "-seater" %>
                 </td>
                 <td>
-                  <button class="btn"><span class="fas fa-power-off <%= if car.data[:status] == 20 then "red" else "green" end%>"></span> </button>
+                  <button id="<%= car.document_id %>-button" class="btn" onclick="updateStatus('<%= car.document_id %>',<%= if car.data[:status] == 20 then "0" else "20" end%>)"title="<%= if car.data[:status] == 20 then "Deply" else "Call back to depot" end%>"><span class="fas fa-power-off <%= if car.data[:status] == 20 then "red" else "green" end%>"></span></button>
                 </td>
               </tr>
               <% end %>
@@ -131,9 +131,32 @@ var db = firebase.firestore();
 db.settings({
   timestampsInSnapshots: true
 });
+
+db.collection("cars").onSnapshot(function(snapshot) {
+  snapshot.docChanges().forEach(function(change) {
+    if(change.type === "modified") {
+      plate = change.doc.id
+      var element = document.getElementById(plate + "-button");
+      if(change.doc.data().status === 20) {
+        element.setAttribute("title", "Deploy");
+        element.setAttribute("onclick", "updateStatus('" + plate + "',0);");
+        element.childNodes[0].className = "fas fa-power-off red"
+      } else {
+        element.setAttribute("title", "Call back to depot");
+        element.setAttribute("onclick", "updateStatus('" + plate + "',20);");
+        element.childNodes[0].className = "fas fa-power-off green"
+      }
+
+    }
+  });
+});
 var marker;
 var directionsService;
 var directionsRenderer;
+
+function updateStatus(car, status) {
+  db.collection("cars").doc(car).set({status: status},{merge: true})
+}
 function findCar(car) {
 
   db.collection("cars").doc(car).onSnapshot(function(doc) {

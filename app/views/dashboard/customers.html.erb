@@ -115,18 +115,19 @@ db.settings({
 <script>
 function showOrders(id) {
   console.log(id)
-  var element = document.getElementById('extra-data-showing');
+  var elements = document.getElementsByClassName('extra-data-showing');
+  for(var i = 0; i < elements.length; i++) {
+      elements[i].parentNode.removeChild(elements[i]);
+
+  }
   var current = document.getElementById(id);
   if(current != null) {
-    if(element != null) {
-      element.parentNode.removeChild(element);
-    }
     $.ajax({
       url: "/api/orders?uid=" + id,
       dataType: 'json',
       success: function(user){
-        element = document.createElement('tr');
-        element.setAttribute('id', "extra-data-showing");
+        var element = document.createElement('tr');
+        element.setAttribute('class', "extra-data-showing");
         var html = '\
         <td>\
         <table class="table tablesorter" style="margin-left:100px;">\
