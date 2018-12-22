@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'api/get_cars'
   get 'api/car_profits'
   get 'api/orders'
+  get 'api/send_notification'
   #match ':api/:action', via: [:get]
   #post 'requests/ardra'
   get 'requests/calculate_price'
