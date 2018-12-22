@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
   layout false
   require "google/cloud/firestore"
+  require 'net/http'
   def get_cars
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.col("cars").get
@@ -87,4 +88,31 @@ class ApiController < ApplicationController
         end
       end
     end
-  end
+
+    def send_notification
+      token = params[:token]
+      title = params[:title]
+      body = params[:body]
+
+      if !token.nil? && !title.nil? && !body.nil?
+        url = URI.parse("https://fcm.googleapis.com/fcm/send")
+        http = Net::HTTP.new(url.host, url.post)
+        req = Net::HTTP::Post.new(url.to_s, {'Content-Type' => 'application/json',
+          'Authorization' => ENV['FCM_KEY']})
+          req.body = {"data": {"title": title, "title": body},
+          "to": token}
+
+          res = http.request(req)
+
+          respond_to do |format|
+            format.json {render json: JSON.parse(res.body)}
+            format.html {render html: res.body}
+          end
+        else
+          respond_to do |format|
+            format.json {render json: "Missing parameters"}
+            format.html {render html: "Missing parameters"}
+          end
+        end
+      end
+    end

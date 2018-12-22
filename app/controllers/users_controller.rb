@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       if !logged_in?
-        login @user
+        log_in @user
       end
       redirect_to dashboard_url
     else
