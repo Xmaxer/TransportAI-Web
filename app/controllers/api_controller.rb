@@ -88,34 +88,4 @@ class ApiController < ApplicationController
         end
       end
     end
-
-    def send_notification
-      token = params[:token]
-      title = params[:title]
-      body = params[:body]
-
-      if !token.nil? && !title.nil? && !body.nil?
-        url = URI.parse("https://fcm.googleapis.com/fcm/send")
-        req = Net::HTTP::Post.new(url)
-        req.body = {"data": {"title": title, "body": body},
-        "to": token}.to_json
-        logger.debug(req.body)
-        req.content_type = 'application/json'
-        req['authorization'] = ENV['FCM_KEY']
-
-        res = Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
-          http.request(req)
-        end
-        logger.debug(res.body)
-        respond_to do |format|
-          format.json {render json: res.body.to_json}
-          format.html {render html: res.body.to_json}
-        end
-      else
-        respond_to do |format|
-          format.json {render json: "Missing parameters"}
-          format.html {render html: "Missing parameters"}
-        end
-      end
-    end
   end
