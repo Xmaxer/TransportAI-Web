@@ -65,7 +65,7 @@ class RequestsController < ApplicationController
 
   def send_notification(car)
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
-    cars_ref = firestore.doc("cars/#{car}").get
+    cars_ref = firestore.col('cars').doc(car).get
     route_id = cars_ref.data[:route_id]
 
     make = cars_ref.data[:make]
@@ -73,42 +73,47 @@ class RequestsController < ApplicationController
 
     route_ref = firestore.col("cars").doc(car).col('routes').doc(route_id).get
 
-    user_id = route_ref.data["user_id"]
+    user_id = route_ref.data[:user_id]
 
     user_ref = firestore.col('users').doc(user_id).get
 
     notified = user_ref.data[:notified]
 
-    if notified.nil? || notified == False
+    if notified.nil? || notified == false
 
       token = user_ref.data[:messaging_token]
 
-      title = "ardra"
-      body = "Your " + make.to_s + " " + model.to_s + " has arrived!"
+      title = "Ardra"
+      body = "Your " + make.to_s + " " + model.to_s + " has arrived! (#{car})"
 
       if !token.nil? && !title.nil? && !body.nil?
         url = URI.parse("https://fcm.googleapis.com/fcm/send")
         req = Net::HTTP::Post.new(url)
         req.body = {"data": {"title": title, "body": body},
         "to": token}.to_json
-        logger.debug(req.body)
+
         req.content_type = 'application/json'
         req['authorization'] = ENV['FCM_KEY']
 
         res = Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
           http.request(req)
         end
-        logger.debug(res.body)
+
         respond_to do |format|
           format.json {render json: res.body.to_json}
           format.html {render html: res.body.to_json}
         end
-        firestore.col('users').doc(user_id).update({notified: True})
+        firestore.col('users').doc(user_id).update({notified: true})
       else
         respond_to do |format|
           format.json {render json: "Missing parameters"}
           format.html {render html: "Missing parameters"}
         end
+      end
+    else
+      respond_to do |format|
+        format.json {render json: "Already notified"}
+        format.html {render html: "Already notified"}
       end
     end
   end
