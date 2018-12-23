@@ -103,13 +103,13 @@ class RequestsController < ApplicationController
           format.json {render json: res.body.to_json}
           format.html {render html: res.body.to_json}
         end
+        firestore.col('users').doc(user_id).update({notified: True})
       else
         respond_to do |format|
           format.json {render json: "Missing parameters"}
           format.html {render html: "Missing parameters"}
         end
       end
-      firestore.col('users').doc(user_id).update({notified: True})
     end
   end
 
