@@ -157,7 +157,7 @@ class RequestsController < ApplicationController
     if status == 2 || status == 3
       if status == 2
         @destination = route_ref[:origin]
-      else if status == 3
+      elsif status == 3
         @destination = route_ref[:destination]
       end
       uri = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=#{lat},#{lng}&destinations=#{@destination[:latitude]},#{@destination[:longitude]}&key=" + ENV['GOOGLE_API_KEY']
