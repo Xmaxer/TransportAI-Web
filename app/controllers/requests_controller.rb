@@ -177,6 +177,7 @@ class RequestsController < ApplicationController
       end
 
       result = {distance: result}
+      logger.debug(result)
       respond_to do |format|
         format.json {render json: result.to_json}
         format.html {render html: result.to_json}
