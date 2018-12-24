@@ -47,6 +47,8 @@ class RequestsController < ApplicationController
         cancel_order(car)
       when 6
         send_notification(car)
+      when 7
+        complete_order(car)
       else
         respond_to do |format|
           format.html {render html: "#{code} is not a valid code"}
@@ -63,6 +65,11 @@ class RequestsController < ApplicationController
 
   private
 
+  def complete_order(car)
+    firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+    cars_ref = firestore.col('cars').doc(car)
+    cars_ref.update({status: 4})
+  end
   def send_notification(car)
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.col('cars').doc(car).get
@@ -78,6 +85,12 @@ class RequestsController < ApplicationController
     user_ref = firestore.col('users').doc(user_id).get
 
     notified = user_ref.data[:notified]
+
+    status = cars_ref.data[:status]
+
+    if status == 2
+      firestore.col('cars').doc(car).update({status: 3})
+    end
 
     if notified.nil? || notified == false
 
@@ -134,34 +147,42 @@ class RequestsController < ApplicationController
     end
     cars_ref.update({location: {latitude: lat.to_f, longitude: lng.to_f}})
 
-    route_id = cars_ref.get.data[:route_id]
+    doc = cars_ref.get
+    status = doc.data[:status]
+
+    route_id = doc.data[:route_id]
 
     route_ref = firestore.col('cars').doc(car).col('routes').doc(route_id).get
 
-    destination = route_ref[:destination]
-    uri = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=#{lat},#{lng}&destinations=#{destination[:latitude]},#{destination[:longitude]}&key=" + ENV['GOOGLE_API_KEY']
-    url = URI.parse(uri)
-    req = Net::HTTP::Get.new(url.to_s)
-    res = Net::HTTP.start(url.host, url.port, :use_ssl => true){|http|
-      http.request(req)
-    }
+    if status == 2 || status == 3
+      if status == 2
+        @destination = route_ref[:origin]
+      else if status == 3
+        @destination = route_ref[:destination]
+      end
+      uri = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=#{lat},#{lng}&destinations=#{@destination[:latitude]},#{@destination[:longitude]}&key=" + ENV['GOOGLE_API_KEY']
+      url = URI.parse(uri)
+      req = Net::HTTP::Get.new(url.to_s)
+      res = Net::HTTP.start(url.host, url.port, :use_ssl => true){|http|
+        http.request(req)
+      }
 
-    result = JSON.parse(res.body)
-    rows = result["rows"][0]["elements"][0]
-    logger.debug(rows)
-    if !rows.key?("distance")
-      result = -1
-    else
-      result = result["rows"][0]["elements"][0]["distance"]["value"]
-    end
+      result = JSON.parse(res.body)
+      rows = result["rows"][0]["elements"][0]
+      logger.debug(rows)
+      if !rows.key?("distance")
+        result = -1
+      else
+        result = result["rows"][0]["elements"][0]["distance"]["value"]
+      end
 
-    result = {distance: result}
-    respond_to do |format|
-      format.json {render json: result.to_json}
-      format.html {render html: result.to_json}
+      result = {distance: result}
+      respond_to do |format|
+        format.json {render json: result.to_json}
+        format.html {render html: result.to_json}
+      end
     end
   end
-
   def confirm_order(car)
     firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
     cars_ref = firestore.doc "cars/#{car}"
