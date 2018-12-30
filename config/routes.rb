@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'dashboard/orders', to: 'dashboard#orders'
   get 'dashboard/settings', to: 'dashboard#settings'
   get 'dashboard/customers', to: 'dashboard#customers'
+  get 'dashboard/support', to: 'dashboard#support'
   post 'dashboard/new_setting'
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

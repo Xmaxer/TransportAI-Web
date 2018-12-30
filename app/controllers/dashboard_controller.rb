@@ -113,14 +113,14 @@ class DashboardController < ApplicationController
           user_ref = firestore.col("users").doc(route_ref.data[:user_id]).get
 
           if user_ref.exists?
-          @orders[route_ref.document_id] = {
-            plate: plate,
-            email: user_ref.data[:email],
-            elapsed: elapsed,
-            estimated: estimated,
-            status: car.data[:status]
-          }
-        end
+            @orders[route_ref.document_id] = {
+              plate: plate,
+              email: user_ref.data[:email],
+              elapsed: elapsed,
+              estimated: estimated,
+              status: car.data[:status]
+            }
+          end
         end
       end
     end
@@ -138,6 +138,28 @@ class DashboardController < ApplicationController
           @setting.save
           redirect_to dashboard_settings_url
         end
+
+        def support
+          firestore = Google::Cloud::Firestore.new(project_id: ENV["FIRESTORE_PROJECT"], credentials: ENV["FIRESTORE_CREDENTIALS"])
+          users = firestore.col("users").get
+          @messages = {}
+          users.each do |user|
+            messages = firestore.col("users").doc(user.document_id).col("messages").get
+            if messages.nil?
+              next
+            end
+            messages.each do |msg|
+              title = msg.data[:title]
+              body = msg.data[:body]
+              @messages[msg.document_id] = {
+                title: title,
+                body: body,
+                email: user.data[:email]
+              }
+            end
+          end
+        end
+        
         private
         def setting_params
           params.require(:setting).permit(:price_per_km, :price_per_time)

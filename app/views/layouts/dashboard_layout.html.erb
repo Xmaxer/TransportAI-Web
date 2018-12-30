@@ -69,6 +69,12 @@
             <p>Ratings and Reviews</p>
             <% end %>
           </li>
+          <li class="<%= if url_for() == dashboard_support_path then "active" end %>">
+            <%= link_to dashboard_support_path do %>
+            <i class="fas fa-envelope"></i>
+            <p>Support</p>
+            <% end %>
+          </li>
           <li class="<%= if url_for() == dashboard_settings_path then "active" end %>">
             <%= link_to dashboard_settings_path do %>
             <i class="fas fa-cog"></i>

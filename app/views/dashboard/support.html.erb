@@ -1,0 +1,96 @@
+<% content_for(:header) do %>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-chart">
+      <div class="card-header ">
+        <h5 class="card-category">Support</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Title
+                </th>
+                <th>
+                  Message
+                </th>
+              </tr>
+            </thead>
+            <tbody id="messages-list">
+              <% @messages.each do |id, data| %>
+              <tr id="<%= id %>">
+                <td>
+                  <%= data[:title] %>
+                </td>
+                <td>
+                  <%= data[:body] %>
+                </td>
+                <td>
+                  <a href="mailto:<%= data[:email] %>?Subject=<%= data[:title] %>&Body=<%= data[:body] %>" id="<%= id %>-button" class="btn"><span class="fas fa-envelope-square pink"></span></a>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  if(!firebase.apps.length) {
+    firebase.initializeApp({
+      apiKey: '<%= ENV['GOOGLE_API_KEY'] %>',
+      authDomain: '<%= ENV['FIRESTORE_PROJECT'] %>.firebaseapp.com',
+      projectId: '<%= ENV['FIRESTORE_PROJECT'] %>'
+    });
+  }
+
+  // Initialize Cloud Firestore through Firebase
+  var db = firebase.firestore();
+
+  // Disable deprecated features
+  db.settings({
+    timestampsInSnapshots: true
+  });
+</script>
+<script>
+  var first = true;
+  db.collection("users").onSnapshot(function(ss) {
+    ss.docChanges().forEach(function(change) {
+      if(change.type == "added") {
+        var userDoc = change.doc.data();
+        change.doc.ref.collection("messages").onSnapshot(function(qs) {
+          if(first) {
+            first = false;
+            return;
+          }
+          qs.docChanges().forEach(function(change2) {
+            if(change2.type == "added") {
+              var doc = change2.doc.data();
+              var id = change2.doc.id
+              var email = userDoc.email
+              var title = doc.title
+              var body = doc.body
+              var element = document.createElement('tr')
+              var html = '<td>' + title + '</td>\
+              <td>' + body + '</td>\
+              <td><a href="mailto:' + email + '?Subject=' + title + '&Body=' + body + '" id="' + id + '-button" class="btn"><span class="fas fa-envelope-square pink"></span></a></td>\n';
+              element.innerHTML = html;
+              var list = document.getElementById('messages-list');
+
+              list.insertBefore(element, list.childNodes[0]);
+              //  console.log("new reviews: ", change.doc.data());
+            }
+          });
+        });
+      }
+    });
+  });
+
+</script>
